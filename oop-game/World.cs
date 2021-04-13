@@ -22,14 +22,17 @@ namespace oop_game
             using (var stdout = Console.OpenStandardOutput(Cols * Rows))
             {
                 // fill
-                stdout.Write(buffer, 0, buffer.Length);
+
+                stdout.Write(buffer, 3, buffer.Length-3);
                 // rinse and repeat
             }
 
+        }
 
 
 
         }
+
         public void Draw()
         {
             for (int y = 0; y < Rows; y++)
@@ -41,6 +44,14 @@ namespace oop_game
                     Console.Write(element);
                 }
             }
+        }
+        public bool Walkable(int x, int y)
+        {
+            if (x < 0 || y < 0 || x >= Cols || y >= Rows)
+            {
+                return false;
+            }
+            return Grid[y, x] == " "; 
         }
     }
 }
