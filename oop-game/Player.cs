@@ -26,5 +26,12 @@ namespace oop_game
             Console.Write(PlayerModel);
             Console.ResetColor();
         }
+        public void DrawModel(char x)
+        {
+            Console.ForegroundColor = PlayerColor;
+            Console.SetCursorPosition(X, Y);
+            Console.Write(x);
+            Console.ResetColor();
+        }
     }
 }

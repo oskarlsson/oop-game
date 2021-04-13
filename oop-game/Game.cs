@@ -8,6 +8,7 @@ namespace oop_game
     {
         private World TheWorld;
         private Player ThePlayer;
+        byte[] buffer = Levelreader.ReadFileToByteArray("TextFile1.txt");
 
         public void Start()
         {
@@ -27,6 +28,7 @@ namespace oop_game
                 case ConsoleKey.UpArrow:
                     if (TheWorld.Walkable(ThePlayer.X, ThePlayer.Y - 1))
                     {
+                        ThePlayer.DrawModel(' ');
                         ThePlayer.Y -= 1;
                     }
                     ThePlayer.DrawModel();
@@ -34,6 +36,7 @@ namespace oop_game
                 case ConsoleKey.DownArrow:
                     if (TheWorld.Walkable(ThePlayer.X, ThePlayer.Y + 1))
                     {
+                        ThePlayer.DrawModel(' ');
                         ThePlayer.Y += 1;
                     }
                    
@@ -41,27 +44,27 @@ namespace oop_game
                 case ConsoleKey.LeftArrow:
                     if (TheWorld.Walkable(ThePlayer.X - 1, ThePlayer.Y))
                     {
+                        ThePlayer.DrawModel(' ');
                         ThePlayer.X -= 1;
-                    }
-                    
+                    }                   
                     break;
                 case ConsoleKey.RightArrow:
                     if (TheWorld.Walkable(ThePlayer.X + 1, ThePlayer.Y))
                     {
+                        ThePlayer.DrawModel(' ');
                         ThePlayer.X += 1;
                     }                    
                     break;
-                default:
-                    
+                default:                   
                     break;
             }
         }
         private void GameLoop()
         {
-            
+            TheWorld.FastDraw(buffer);
             while (true)
             {
-                TheWorld.Draw();
+                
                 ThePlayer.DrawModel();
                 PlayerInput();
             }
