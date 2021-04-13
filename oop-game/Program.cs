@@ -11,12 +11,13 @@ namespace oop_game
 
             Console.SetWindowSize(240, 63);
             string[,] grid = Levelreader.ReadFileToArray("TextFile1.txt");
+            byte[] buffer = Levelreader.ReadFileToByteArray("TextFile1.txt");
             World myWorld = new World(grid);
             var playerX = 1;
             var playerY = 1; // Contains current cursor position.
             Console.CursorVisible = false;
-            //myWorld.Draw();
-            DrawPlayer(myWorld, 'c', playerX, playerY);
+            myWorld.FastDraw(buffer);
+            DrawPlayer(myWorld, 'c',buffer, playerX, playerY);
             while (true)
             {
                 
@@ -32,6 +33,7 @@ namespace oop_game
                             {
                                 if (playerY > 0)
                                 {
+                                    DrawPlayer(myWorld, ' ', buffer, playerX, playerY);
                                     playerY++;
                                 }
                             }
@@ -41,6 +43,7 @@ namespace oop_game
                             {
                                 if (playerY > 0)
                                 {
+                                    DrawPlayer(myWorld, ' ', buffer, playerX, playerY);
                                     playerY--;
                                 }
                             }
@@ -50,6 +53,7 @@ namespace oop_game
                             {
                                 if (playerX > 0)
                                 {
+                                    DrawPlayer(myWorld, ' ', buffer, playerX, playerY);
                                     playerX--;
                                 }
                             }
@@ -58,12 +62,13 @@ namespace oop_game
                         case ConsoleKey.RightArrow:
                             if (string.IsNullOrWhiteSpace(myWorld.Grid[playerY, playerX + 1]))
                             {
+                                DrawPlayer(myWorld, ' ', buffer, playerX, playerY);
                                 playerX++;
                             }
                             break;
                     }
                    
-                    DrawPlayer(myWorld, 'c', playerX, playerY);
+                    DrawPlayer(myWorld, 'c',buffer, playerX, playerY);
                 }
                 else
                 {
@@ -71,14 +76,15 @@ namespace oop_game
                 }
             }
         }
-        public static void DrawPlayer(World myworld, char toWrite, int x = 0, int y = 0)
+        public static void DrawPlayer(World myworld, char toWrite, byte[] buffer, int x = 0, int y = 0)
         {
             try
             {
                 if (x >= 0 && y >= 0) // 0-based
                 {
+
                     //Console.Clear();
-                    myworld.Draw();
+                    //myworld.Draw();
                     Console.SetCursorPosition(x, y);
                     Console.Write(toWrite);
                 }
