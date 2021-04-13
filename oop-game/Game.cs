@@ -6,15 +6,20 @@ namespace oop_game
 {
     class Game
     {
-        private World TheWorld;
+        private static Maze TheWorld;
         private Player ThePlayer;
-        byte[] buffer = Levelreader.ReadFileToByteArray("TextFile1.txt");
+        //byte[] buffer = Levelreader.ReadFileToByteArray("TextFile1.txt");
+        byte[] buffer;
+        //string[,] grid = Import("TextFile1.txt", out buffer);
 
         public void Start()
         {
-            string[,] grid = Levelreader.ReadFileToArray("TextFile1.txt");
-            TheWorld = new World(grid);
+            //string[,] grid = Levelreader.ReadFileToArray("TextFile1.txt", out byte[] buffer);
+            //string[,] grid = Import("TextFile1.txt", out buffer);
+            
+            TheWorld = new Maze();
             ThePlayer = new Player(1, 1);
+            buffer = TheWorld.Import("TextFile1.txt");
             Console.CursorVisible = false;
             GameLoop();
         }
@@ -61,13 +66,25 @@ namespace oop_game
         }
         private void GameLoop()
         {
-            TheWorld.FastDraw(buffer);
+            FastDraw(buffer);
             while (true)
             {
                 
                 ThePlayer.DrawModel();
                 PlayerInput();
             }
+        }
+
+        public void FastDraw(byte[] buffer)
+        {
+            using (var stdout = Console.OpenStandardOutput(buffer.Length))
+            {
+                // fill
+
+                stdout.Write(buffer, 3, buffer.Length - 3);
+                // rinse and repeat
+            }
+
         }
     }
 }
