@@ -16,14 +16,20 @@ namespace oop_game
             Rows = Grid.GetLength(0);
             Cols = Grid.GetLength(1);
         }
+
         public void FastDraw(byte[] buffer)
         {
             using (var stdout = Console.OpenStandardOutput(Cols * Rows))
             {
                 // fill
+
                 stdout.Write(buffer, 3, buffer.Length-3);
                 // rinse and repeat
             }
+
+        }
+
+
 
         }
 
