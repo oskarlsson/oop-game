@@ -4,8 +4,12 @@ using System.Text;
 
 namespace oop_game
 {
-    interface IView
+    public interface IView
     {
         public abstract byte[] Import(string filepath);
+
+
+        //VOODOO
+        public abstract bool Walkable(int x, int y);
     }
 }

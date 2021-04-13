@@ -30,6 +30,7 @@ namespace oop_game
                 }
             }
         }
+        //Move this out
         public bool Walkable(int x, int y)
         {
             if (x < 0 || y < 0 || x >= Cols || y >= Rows)
