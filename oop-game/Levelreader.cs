@@ -26,5 +26,11 @@ namespace oop_game
             return grid;
         }
 
+        public static byte[] ReadFileToByteArray(string filepath)
+        {
+            return File.ReadAllBytes(filepath);
+
+        }
+
     }
 }
