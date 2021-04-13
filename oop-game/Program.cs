@@ -7,16 +7,16 @@ namespace oop_game
     {
         static void Main(string[] args)
         {
-
-
-            Console.SetWindowSize(240, 63);
-            string[,] grid = Levelreader.ReadFileToArray("TextFile1.txt");
-            World myWorld = new World(grid);
+            Game newGame = new Game();
+            newGame.Start();
+            
+           /* World myWorld = new World(grid);
+            Player newPlayer = new Player(1, 1);
             var playerX = 1;
             var playerY = 1; // Contains current cursor position.
-            Console.CursorVisible = false;
+            
             //myWorld.Draw();
-            DrawPlayer(myWorld, 'c', playerX, playerY);
+            DrawPlayer(myWorld, 'O', playerX, playerY);
             while (true)
             {
                 
@@ -63,11 +63,11 @@ namespace oop_game
                             break;
                     }
                    
-                    DrawPlayer(myWorld, 'c', playerX, playerY);
+                    DrawPlayer(myWorld, 'O', playerX, playerY);
                 }
                 else
                 {
-                    Thread.Sleep(1);
+                    Thread.Sleep(100);
                 }
             }
         }
@@ -85,8 +85,9 @@ namespace oop_game
             }
             catch (Exception)
             {
-            }
+            }*/
         }
+       
     }
 
 }

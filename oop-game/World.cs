@@ -28,5 +28,13 @@ namespace oop_game
                 }
             }
         }
+        public bool Walkable(int x, int y)
+        {
+            if (x < 0 || y < 0 || x >= Cols || y >= Rows)
+            {
+                return false;
+            }
+            return Grid[y, x] == " "; 
+        }
     }
 }
