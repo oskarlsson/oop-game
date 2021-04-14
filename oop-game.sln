@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "oop-game", "oop-game\oop-game.csproj", "{76DD13D1-0011-4681-95C7-9A26209E818E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "oop-game", "oop-game\oop-game.csproj", "{76DD13D1-0011-4681-95C7-9A26209E818E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "oop-game.Test", "oop-game.Test\oop-game.Test.csproj", "{1FCC6974-B6B2-4499-8F1B-65DDDE861D46}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{76DD13D1-0011-4681-95C7-9A26209E818E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76DD13D1-0011-4681-95C7-9A26209E818E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76DD13D1-0011-4681-95C7-9A26209E818E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FCC6974-B6B2-4499-8F1B-65DDDE861D46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FCC6974-B6B2-4499-8F1B-65DDDE861D46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FCC6974-B6B2-4499-8F1B-65DDDE861D46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FCC6974-B6B2-4499-8F1B-65DDDE861D46}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
