@@ -9,20 +9,13 @@ namespace oop_game
         static byte[] buffer;
         static void Main(string[] args)
         {
-            Start();
-        }
-        public static void Start()
-        {
-            //string[,] grid = Levelreader.ReadFileToArray("TextFile1.txt", out byte[] buffer);
-            //string[,] grid = Import("TextFile1.txt", out buffer);
 
             _gameSession = new GameSession();
 
-            buffer = _gameSession._currentView.Import("TextFile1.txt");
+            buffer = _gameSession.currentMaze.Buffer;
             Console.CursorVisible = false;
             GameLoop();
         }
-
         private static void PlayerInput()
         {
             ConsoleKeyInfo keypress = Console.ReadKey(true);
@@ -30,34 +23,28 @@ namespace oop_game
             switch (key)
             {
                 case ConsoleKey.UpArrow:
-                    if (_gameSession._currentView.Walkable(_gameSession._currentPlayer.X, _gameSession._currentPlayer.Y - 1))
-                    {
-                        DrawModel(_gameSession._currentPlayer.PlayerColor, _gameSession._currentPlayer.X, _gameSession._currentPlayer.Y);
-                        _gameSession._currentPlayer.Y -= 1;
-                    }
+
+                    DrawModel(_gameSession.currentPlayer.PlayerColor, _gameSession.currentPlayer.X, _gameSession.currentPlayer.Y);
+                    _gameSession.Move(_gameSession.currentPlayer.X, _gameSession.currentPlayer.Y - 1);
+
 
                     break;
                 case ConsoleKey.DownArrow:
-                    if (_gameSession._currentView.Walkable(_gameSession._currentPlayer.X, _gameSession._currentPlayer.Y + 1))
-                    {
-                        DrawModel(_gameSession._currentPlayer.PlayerColor, _gameSession._currentPlayer.X, _gameSession._currentPlayer.Y);
-                        _gameSession._currentPlayer.Y += 1;
-                    }
+                    DrawModel(_gameSession.currentPlayer.PlayerColor, _gameSession.currentPlayer.X, _gameSession.currentPlayer.Y);
+                    _gameSession.Move(_gameSession.currentPlayer.X, _gameSession.currentPlayer.Y + 1);
 
                     break;
                 case ConsoleKey.LeftArrow:
-                    if (_gameSession._currentView.Walkable(_gameSession._currentPlayer.X - 1, _gameSession._currentPlayer.Y))
-                    {
-                        DrawModel(_gameSession._currentPlayer.PlayerColor, _gameSession._currentPlayer.X, _gameSession._currentPlayer.Y);
-                        _gameSession._currentPlayer.X -= 1;
-                    }
+                 
+                    DrawModel(_gameSession.currentPlayer.PlayerColor, _gameSession.currentPlayer.X, _gameSession.currentPlayer.Y);
+                    _gameSession.Move(_gameSession.currentPlayer.X -1, _gameSession.currentPlayer.Y );
+
                     break;
                 case ConsoleKey.RightArrow:
-                    if (_gameSession._currentView.Walkable(_gameSession._currentPlayer.X + 1, _gameSession._currentPlayer.Y))
-                    {
-                        DrawModel(_gameSession._currentPlayer.PlayerColor, _gameSession._currentPlayer.X, _gameSession._currentPlayer.Y);
-                        _gameSession._currentPlayer.X += 1;
-                    }
+             
+                    DrawModel(_gameSession.currentPlayer.PlayerColor, _gameSession.currentPlayer.X, _gameSession.currentPlayer.Y);
+                    _gameSession.Move(_gameSession.currentPlayer.X + 1, _gameSession.currentPlayer.Y);
+                    
                     break;
                 default:
                     break;
@@ -69,8 +56,8 @@ namespace oop_game
             while (true)
             {
 
-                DrawModel(_gameSession._currentPlayer.PlayerColor, _gameSession._currentPlayer.X, _gameSession._currentPlayer.Y,
-                    _gameSession._currentPlayer.PlayerModel);
+                DrawModel(_gameSession.currentPlayer.PlayerColor, _gameSession.currentPlayer.X, _gameSession.currentPlayer.Y,
+                    _gameSession.currentPlayer.PlayerModel);
                 PlayerInput();
             }
         }

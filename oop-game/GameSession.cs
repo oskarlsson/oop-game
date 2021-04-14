@@ -4,15 +4,41 @@ using System.Text;
 
 namespace oop_game
 {
+    /// <summary>
+    /// Holds the objects relating to the game
+    /// Contains the game logic
+    /// </summary>
     public class GameSession
     {
-        public IView _currentView;
-        public Player _currentPlayer;
+        public Maze currentMaze;
+        public Player currentPlayer;
 
         public GameSession()
         {
-            _currentView = new Maze();
-            _currentPlayer = new Player(1, 1);
+            currentMaze = new Maze("Level1.txt");
+            currentPlayer = new Player(1, 1);
+        }
+        public void Move(int x, int y)
+        {
+            
+            if (IsValidMove(x, y))
+            {
+                currentPlayer.X = x;
+                currentPlayer.Y = y;
+                
+            }
+            
+        }
+
+        public bool IsValidMove(int x, int y)
+        {
+            //check if new position is outside of level
+            if (x < 0 || y < 0 || x >= currentMaze.cols || y >= currentMaze.rows)
+            {
+                return false;
+            }
+            //returns true if new move goes to an empty space
+            return currentMaze.Grid[y, x] == " ";
         }
 
     }
