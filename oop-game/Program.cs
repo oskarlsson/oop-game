@@ -9,9 +9,7 @@ namespace oop_game
         static byte[] buffer;
         static void Main(string[] args)
         {
-
             _gameSession = new GameSession();
-
             buffer = _gameSession.currentMaze.Buffer;
             Console.CursorVisible = true;
             menu();
@@ -21,21 +19,22 @@ namespace oop_game
 
         public static void  menu()
         {
-            bool validChoise;
+            bool validChoice;
             int selection;
                 Console.ForegroundColor = ConsoleColor.Green;
             do
             {
                 Console.Clear();
+                Console.WriteLine($"Välkommen {Environment.UserName}!");
                 Console.WriteLine("[1] Spela ");
-                Console.WriteLine("[2] Instraktioner ");
+                Console.WriteLine("[2] Instruktioner ");
                 Console.WriteLine("[3] Avsluta");
                 Console.Write("Välj [1..3] :");
 
-                validChoise = int.TryParse(Console.ReadLine(), out selection);
-                if (!validChoise)
+                validChoice = int.TryParse(Console.ReadLine(), out selection);
+                if (!validChoice)
                     Console.Beep(1000, 50);
-            } while (!validChoise);
+            } while (!validChoice);
 
             switch(selection)
             {
@@ -43,7 +42,7 @@ namespace oop_game
                         GameLoop();
                     break;
                 case 2:
-                    viewInstruktion();
+                    viewInstruction();
                     menu();
                     break;
                 case 3:
@@ -55,7 +54,7 @@ namespace oop_game
                     break;
             }
         }
-        public static void viewInstruktion()
+        public static void viewInstruction()
         {
             Console.WriteLine("Instruktioner...");
             Console.ReadKey();
@@ -89,7 +88,6 @@ namespace oop_game
                 case ConsoleKey.RightArrow:
                     ErasePlayer();
                     _gameSession.Move(1, 0);
-                    
                     break;
                 case ConsoleKey.Escape:
                     Console.Clear();
@@ -100,13 +98,11 @@ namespace oop_game
         private static void GameLoop()
         {
             Console.CursorVisible = false;
-
             Console.Clear();
             Console.ResetColor();
             FastDraw(buffer);
             while (true)
             {
-
                 DrawPlayer();
                 PlayerInput();
             }
