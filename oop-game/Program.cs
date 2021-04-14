@@ -75,35 +75,26 @@ namespace oop_game
             switch (key)
             {
                 case ConsoleKey.UpArrow:
-
-                    DrawModel(_gameSession.currentPlayer.PlayerColor, _gameSession.currentPlayer.X, _gameSession.currentPlayer.Y);
-                    _gameSession.Move(_gameSession.currentPlayer.X, _gameSession.currentPlayer.Y - 1);
-
-
+                    ErasePlayer();
+                    _gameSession.Move(0, -1);
                     break;
                 case ConsoleKey.DownArrow:
-                    DrawModel(_gameSession.currentPlayer.PlayerColor, _gameSession.currentPlayer.X, _gameSession.currentPlayer.Y);
-                    _gameSession.Move(_gameSession.currentPlayer.X, _gameSession.currentPlayer.Y + 1);
-
+                    ErasePlayer();
+                    _gameSession.Move(0, 1);
                     break;
                 case ConsoleKey.LeftArrow:
-                 
-                    DrawModel(_gameSession.currentPlayer.PlayerColor, _gameSession.currentPlayer.X, _gameSession.currentPlayer.Y);
-                    _gameSession.Move(_gameSession.currentPlayer.X -1, _gameSession.currentPlayer.Y );
-
+                    ErasePlayer();
+                    _gameSession.Move(-1, 0); 
                     break;
                 case ConsoleKey.RightArrow:
-             
-                    DrawModel(_gameSession.currentPlayer.PlayerColor, _gameSession.currentPlayer.X, _gameSession.currentPlayer.Y);
-                    _gameSession.Move(_gameSession.currentPlayer.X + 1, _gameSession.currentPlayer.Y);
+                    ErasePlayer();
+                    _gameSession.Move(1, 0);
                     
                     break;
                 case ConsoleKey.Escape:
                     Console.Clear();
                         menu();
                         break;
-                    default:
-                    break;
             }
         }
         private static void GameLoop()
@@ -116,17 +107,23 @@ namespace oop_game
             while (true)
             {
 
-                DrawModel(_gameSession.currentPlayer.PlayerColor, _gameSession.currentPlayer.X, _gameSession.currentPlayer.Y,
-                    _gameSession.currentPlayer.PlayerModel);
+                DrawPlayer();
                 PlayerInput();
             }
         }
 
-        public static void DrawModel(ConsoleColor modelColor, int xPos, int yPos, string modelChar = " ")
+        public static void DrawPlayer()
         {
-            Console.ForegroundColor = modelColor;
-            Console.SetCursorPosition(xPos, yPos);
-            Console.Write(modelChar);
+            Console.ForegroundColor = _gameSession.currentPlayer.PlayerColor;
+            Console.SetCursorPosition(_gameSession.currentPlayer.X, _gameSession.currentPlayer.Y);
+            Console.Write(_gameSession.currentPlayer.PlayerModel);
+            Console.ResetColor();
+        }
+        public static void ErasePlayer()
+        {
+            Console.ForegroundColor = _gameSession.currentPlayer.PlayerColor;
+            Console.SetCursorPosition(_gameSession.currentPlayer.X, _gameSession.currentPlayer.Y);
+            Console.Write(" ");
             Console.ResetColor();
         }
         public static void FastDraw(byte[] buffer)
@@ -140,7 +137,5 @@ namespace oop_game
             }
 
         }
-
     }
-
 }

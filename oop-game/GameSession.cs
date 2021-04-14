@@ -5,7 +5,7 @@ using System.Text;
 namespace oop_game
 {
     /// <summary>
-    /// Holds the objects relating to the game
+    /// Holds and creates the objects relating to the game
     /// Contains the game logic
     /// </summary>
     public class GameSession
@@ -20,6 +20,8 @@ namespace oop_game
         }
         public void Move(int x, int y)
         {
+            x += currentPlayer.X;
+            y += currentPlayer.Y;
             
             if (IsValidMove(x, y))
             {
