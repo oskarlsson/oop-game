@@ -103,7 +103,7 @@ namespace oop_game
             Console.Clear();
             Console.ResetColor();
             FastDraw(buffer);
-            Console.WriteLine("STATUS_DEBUGG");
+            StatusBar();
             while (true)
             {
                 DrawPlayer();
@@ -133,6 +133,11 @@ namespace oop_game
             stdout.Write(buffer, 3, buffer.Length - 3);
             // rinse and repeat
 
+        }
+
+        public static void StatusBar()
+        {
+            Console.WriteLine("StatusDebugg");
         }
 
 
