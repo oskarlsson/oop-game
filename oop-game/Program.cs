@@ -137,7 +137,11 @@ namespace oop_game
 
         public static void StatusBar()
         {
-            Console.WriteLine("StatusDebugg");
+            int health = _gameSession.currentPlayer.health;
+            Console.WriteLine("Health: {0}/100", health);
+            Console.WriteLine("Health: {0}/100", health);
+            Console.WriteLine("Health: {0}/100", health);
+            Console.WriteLine("Health: {0}/100", health);
         }
 
 
