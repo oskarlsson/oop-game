@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace oop_game
@@ -12,16 +13,18 @@ namespace oop_game
             _gameSession = new GameSession();
             buffer = _gameSession.currentMaze.Buffer;
             Console.CursorVisible = true;
-            menu();
+            
+            Menu();
             //GameLoop();
         }
 
 
-        public static void  menu()
+        public static void Menu()
         {
             bool validChoice;
             int selection;
-                Console.ForegroundColor = ConsoleColor.Green;
+            Console.ForegroundColor = ConsoleColor.Green;
+            
             do
             {
                 Console.Clear();
@@ -33,41 +36,44 @@ namespace oop_game
 
                 validChoice = int.TryParse(Console.ReadLine(), out selection);
                 if (!validChoice)
+                {
                     Console.Beep(1000, 50);
+                }
+                    
             } while (!validChoice);
 
             switch(selection)
             {
                 case 1:
-                        GameLoop();
+                    GameLoop();
                     break;
                 case 2:
-                    viewInstruction();
-                    menu();
+                    ViewInstructions();
                     break;
                 case 3:
-                    exit();
+                    Exit();
                     break;
                 default:
                     Console.Beep(1000, 50);
-                    menu();
+                    Menu();
                     break;
             }
         }
-        public static void viewInstruction()
+        public static void ViewInstructions()
         {
             Console.WriteLine("Instruktioner...");
             Console.ReadKey();
+            Menu();
         }
 
-        public static void exit()
+        public static void Exit()
         {
             Console.WriteLine("Tryck på en knapp");
             Console.ReadKey();
             Environment.Exit(0);
         }
 
-            private static void PlayerInput()
+        private static void PlayerInput()
         {
             ConsoleKeyInfo keypress = Console.ReadKey(true);
             ConsoleKey key = keypress.Key;
@@ -91,7 +97,7 @@ namespace oop_game
                     break;
                 case ConsoleKey.Escape:
                     Console.Clear();
-                        menu();
+                        Menu();
                         break;
             }
         }
@@ -104,10 +110,21 @@ namespace oop_game
             while (true)
             {
                 DrawPlayer();
+                DrawEnemy();
                 PlayerInput();
             }
         }
-
+        public static void DrawEnemy()
+        {
+            foreach(Enemy enemy in _gameSession.enemies)
+            {
+                //Console.WriteLine(_gameSession.enemies.GetType().GetProperty(_gameSession.enemies.ToString())); 
+                Console.ForegroundColor = enemy.Color;
+                Console.SetCursorPosition(enemy.X, enemy.Y);
+                Console.Write(enemy.Model);
+                Console.ResetColor();
+            }           
+        }
         public static void DrawPlayer()
         {
             Console.ForegroundColor = _gameSession.currentPlayer.PlayerColor;
