@@ -8,6 +8,7 @@ namespace oop_game
     {
         public int X { get; set; }
         public int Y { get; set; }
+        public int health { get; set; }
         private int _attackDamage;
         public int AttackDamage
         {
@@ -60,6 +61,7 @@ namespace oop_game
             ExperiencePoints = 0;
             _hitPoints = 50;
             _attackDamage = 10;
+            health = 100;
         }
         private void LevelUp()
         {

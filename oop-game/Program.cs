@@ -8,6 +8,15 @@ namespace oop_game
 {
     class Program
     {
+        // Used for full screen mode
+        [DllImport("kernel32.dll", ExactSpelling = true)]
+        private static extern IntPtr GetConsoleWindow();
+        private static IntPtr ThisConsole = GetConsoleWindow();
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+        private const int MAXIMIZE = 3;
+
+
         static GameSession _gameSession;
         static byte[] buffer;
         [DllImport("kernel32.dll", ExactSpelling = true)]
@@ -18,13 +27,15 @@ namespace oop_game
         private const int MAXIMIZE = 3;
         static void Main(string[] args)
         {
+
+            // Open game (console) in full screen
             Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
             ShowWindow(ThisConsole, MAXIMIZE);
             _gameSession = new GameSession();
             buffer = _gameSession.currentMaze.Buffer;
 
             Console.CursorVisible = true;
-            
+
             Menu();
             //GameLoop();
         }
@@ -173,13 +184,17 @@ namespace oop_game
 
             }
         }
+        // Spelar
         private static void GameLoop()
         {
             Console.CursorVisible = false;
             Console.Clear();
             Console.ResetColor();
             FastDraw(buffer);
+
             var cursorpos = Console.CursorTop + 1;
+            StatusBar();
+
             while (true)
             {
                 DrawPlayer();
@@ -219,24 +234,24 @@ namespace oop_game
         }
         public static void FastDraw(byte[] buffer)
         {
-            using (var stdout = Console.OpenStandardOutput(buffer.Length))
-            {
-                // fill
+            using var stdout = Console.OpenStandardOutput(buffer.Length);
+            // fill
 
-                stdout.Write(buffer, 3, buffer.Length - 3);
-                // rinse and repeat
-            }
+            stdout.Write(buffer, 3, buffer.Length - 3);
+            // rinse and repeat
 
         }
 
         public static void StatusBar()
         {
+
             
             Console.WriteLine("Health: {0}", _gameSession.currentPlayer.HitPoints);
             Console.WriteLine("Attack: {0}", _gameSession.currentPlayer.AttackDamage);
             Console.WriteLine("Level: {0}", _gameSession.currentPlayer.level);
             Console.WriteLine("EXP: {0}", _gameSession.currentPlayer.ExperiencePoints);
         }
+
     }
 }
 
