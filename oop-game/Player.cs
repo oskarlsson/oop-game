@@ -20,6 +20,10 @@ namespace oop_game
         private int _hitPoints;
         public int HitPoints
         {
+            set
+            {
+                _hitPoints = value;
+            }
             get
             {
                 //Add item effects to this
@@ -62,6 +66,11 @@ namespace oop_game
             level++;
             _attackDamage += 3;
             _hitPoints += 10;
+        }
+
+        public int Attack()
+        {
+            return AttackDamage;
         }
         
     }

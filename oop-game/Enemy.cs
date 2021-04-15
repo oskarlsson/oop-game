@@ -23,6 +23,10 @@ namespace oop_game
         private int _hitPoints;
         public int HitPoints
         {
+            set
+            {
+                _hitPoints = value;
+            }
             get
             {
                 //Add item effects to this
@@ -32,13 +36,19 @@ namespace oop_game
         //public List<Item> inventory;
         public Enemy(int startX, int startY)
         {
+            Random testRNG = new Random();
             X = startX;
             Y = startY;
             Model = "X";
             Color = ConsoleColor.Red;
             level = 1;
-            _hitPoints = 20;
-            _attackDamage = 5;
+            _hitPoints = level * testRNG.Next(5,20);
+            _attackDamage = level * 20;
+        }
+
+        public int Attack()
+        {
+            return AttackDamage;
         }
 
     }
