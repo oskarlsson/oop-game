@@ -10,7 +10,7 @@ namespace oop_game
     /// </summary>
     public class GameSession
     {
-        public Maze currentMaze;
+        public ASCIIModel currentMaze;
         public Player currentPlayer;
         public Enemy enemy1;
         public Enemy enemy2;
@@ -19,7 +19,7 @@ namespace oop_game
 
         public GameSession()
         {
-            currentMaze = new Maze("Level1.txt");
+            currentMaze = new ASCIIModel("ASCII/Level1.txt");
             currentPlayer = new Player(1, 1);
             enemy1 = new Enemy(2, 10);
             enemy2 = new Enemy(8, 4, new Potion(20, 1));

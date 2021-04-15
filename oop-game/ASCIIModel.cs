@@ -5,14 +5,14 @@ using System.Text;
 
 namespace oop_game
 {
-    public class Maze
+    public class ASCIIModel
     {
         public byte[] Buffer;
         public string[,] Grid;
         public int rows;
         public int cols;
 
-        public Maze(string filepath)
+        public ASCIIModel(string filepath)
         {
             Buffer = File.ReadAllBytes(filepath);
             //reads the file into a string array and sets the width and height of the level
@@ -34,22 +34,5 @@ namespace oop_game
             rows = Grid.GetLength(0);
             cols = Grid.GetLength(1);
         }
-
-        //public void Draw()
-        //{
-        //    for (int y = 0; y < _rows; y++)
-        //    {
-        //        for (int x = 0; x < _cols; x++)
-        //        {
-        //            string element = Grid[y, x];
-        //            Console.SetCursorPosition(x, y);
-        //            Console.Write(element);
-        //        }
-        //    }
-        //}
-        //Move this out
-
-
-
     }
 }

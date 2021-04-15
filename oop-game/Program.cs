@@ -35,9 +35,16 @@ namespace oop_game
         {
             
             Console.Clear();
-            int x = 5, y = 5; // Position of the menu on the screen
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
+
+            // Title
+            ASCIIModel title = new ASCIIModel("ASCII/Title.txt");
+            FastDraw(title.Buffer);
+
+            int x = 10, y = 10; // Position of the menu on the screen
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.SetCursorPosition(5, 8);
             Console.WriteLine("     Welcome {0} ", Environment.UserName);
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.SetCursorPosition(x, y);
             Console.WriteLine("Spela ");
             Console.SetCursorPosition(x, y + 1);
@@ -55,11 +62,11 @@ namespace oop_game
                 switch (key)
                 {
                     case ConsoleKey.DownArrow:
-                        if (y == 7) // Last option of the menu
+                        if (y == 12) // Last option of the menu
                         {
                             Console.SetCursorPosition(x - 3, y);
                             Console.WriteLine("  ");
-                            y = 5;
+                            y = 10;
                             Console.SetCursorPosition(x - 3, y);
                             Console.ForegroundColor = ConsoleColor.Blue;
                             Console.WriteLine("■■");
@@ -76,12 +83,12 @@ namespace oop_game
                         }
                         break;
                     case ConsoleKey.UpArrow:
-                        if (y == 5)  // First option of the menu
+                        if (y == 10)  // First option of the menu
                         {
                             Console.SetCursorPosition(x - 3, y);
                             Console.BackgroundColor = ConsoleColor.Black;
                             Console.WriteLine("  ");
-                            y = 7;
+                            y = 12;
                             Console.SetCursorPosition(x - 3, y);
                             Console.ForegroundColor = ConsoleColor.Blue;
                             Console.WriteLine("■■");
@@ -99,20 +106,20 @@ namespace oop_game
                         break;
 
                     case ConsoleKey.Enter:
-                        if (y == 5)
+                        if (y == 10)
                         {
                             Console.ResetColor();
                             GameLoop();
                         }
                         else
-                        if (y == 6)
+                        if (y == 11)
                         {
                             ViewInstructions(); // To do 
                             Console.ReadKey();
                             Menu();
                         }
 
-                        if (y == 7)
+                        if (y == 12)
                         {
                             // The game is stopped and ended by user
                             Console.ForegroundColor = ConsoleColor.Green;
@@ -181,6 +188,7 @@ namespace oop_game
             Console.ResetColor();
             FastDraw(buffer);
             var cursorpos = Console.CursorTop + 1;
+
             while (true)
             {
                 DrawPlayer();
