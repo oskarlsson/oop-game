@@ -6,6 +6,10 @@ namespace oop_game
 {
     public abstract class Item
     {
+        public string itemModel;
+        public ConsoleColor itemColor;
+        public int X;
+        public int Y;
 
     }
 }
