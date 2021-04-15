@@ -19,6 +19,8 @@ namespace oop_game
             }
         }
         private int _hitPoints;
+
+        
         public int HitPoints
         {
             set

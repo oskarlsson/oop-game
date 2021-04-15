@@ -15,16 +15,18 @@ namespace oop_game
         public Enemy enemy1;
         public Enemy enemy2;
         public List<Enemy> enemies;
+        public List<Item> drops;
 
         public GameSession()
         {
             currentMaze = new ASCIIModel("ASCII/Level1.txt");
             currentPlayer = new Player(1, 1);
             enemy1 = new Enemy(2, 10);
-            enemy2 = new Enemy(8, 4);
+            enemy2 = new Enemy(8, 4, new Potion(20, 1));
             enemies = new List<Enemy>();
             enemies.Add(enemy2);
             enemies.Add(enemy1);
+            drops = new List<Item>();
         }
         public void Move(int x, int y)
         {
@@ -56,6 +58,13 @@ namespace oop_game
             }
             if (currentPlayer.HitPoints > 0)
             {
+
+                foreach (Item item in enemyToFight.Drops)
+                {
+
+                    drops.Add(item);
+
+                }
                 enemies.Remove(enemyToFight);
             }
 
