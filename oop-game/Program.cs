@@ -14,7 +14,7 @@ namespace oop_game
             buffer = _gameSession.currentMaze.Buffer;
 
             Console.CursorVisible = true;
-            
+
             Menu();
             //GameLoop();
         }
@@ -164,12 +164,14 @@ namespace oop_game
 
             }
         }
+        // Spelar
         private static void GameLoop()
         {
             Console.CursorVisible = false;
             Console.Clear();
             Console.ResetColor();
             FastDraw(buffer);
+            StatusBar();
             while (true)
             {
                 DrawPlayer();
@@ -204,15 +206,24 @@ namespace oop_game
         }
         public static void FastDraw(byte[] buffer)
         {
-            using (var stdout = Console.OpenStandardOutput(buffer.Length))
-            {
-                // fill
+            using var stdout = Console.OpenStandardOutput(buffer.Length);
+            // fill
 
-                stdout.Write(buffer, 3, buffer.Length - 3);
-                // rinse and repeat
-            }
+            stdout.Write(buffer, 3, buffer.Length - 3);
+            // rinse and repeat
 
         }
+
+        public static void StatusBar()
+        {
+            int health = _gameSession.currentPlayer.health;
+            Console.WriteLine("Health: {0}/100", health);
+            Console.WriteLine("Health: {0}/100", health);
+            Console.WriteLine("Health: {0}/100", health);
+            Console.WriteLine("Health: {0}/100", health);
+        }
+
+
     }
 }
 
