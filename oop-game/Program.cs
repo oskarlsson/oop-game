@@ -12,6 +12,7 @@ namespace oop_game
         {
             _gameSession = new GameSession();
             buffer = _gameSession.currentMaze.Buffer;
+
             Console.CursorVisible = true;
             
             Menu();
@@ -24,43 +25,109 @@ namespace oop_game
             bool validChoice;
             int selection;
             Console.ForegroundColor = ConsoleColor.Green;
-            
-            do
-            {
-                Console.Clear();
-                Console.WriteLine($"Välkommen {Environment.UserName}!");
-                Console.WriteLine("[1] Spela ");
-                Console.WriteLine("[2] Instruktioner ");
-                Console.WriteLine("[3] Avsluta");
-                Console.Write("Välj [1..3] :");
+            Console.CursorVisible = false;
+            menu();
+        }
 
-                validChoice = int.TryParse(Console.ReadLine(), out selection);
-                if (!validChoice)
+        public static void menu()
+        {
+            Console.Clear();
+            int x = 5, y = 5; // Position of the menu on the screen
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("     Welcome {0} ", Environment.UserName);
+            Console.SetCursorPosition(x, y);
+            Console.WriteLine("Spela ");
+            Console.SetCursorPosition(x, y + 1);
+            Console.WriteLine("Instruktioner");
+            Console.SetCursorPosition(x, y + 2);
+            Console.WriteLine("Avsluta");
+            Console.CursorVisible = false;
+            do // Main loop for the menu. It continues until the user select 'AVSLUTA'
+            {
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.SetCursorPosition(x - 3, y);
+                Console.WriteLine("■■"); // Menu pointer
+                ConsoleKeyInfo keypress = Console.ReadKey(true);
+                ConsoleKey key = keypress.Key;
+                switch (key)
                 {
-                    Console.Beep(1000, 50);
-                }
-                    
-            } while (!validChoice);
+                    case ConsoleKey.DownArrow:
+                        if (y == 7) // Last option of the menu
+                        {
+                            Console.SetCursorPosition(x - 3, y);
+                            Console.WriteLine("  ");
+                            y = 5;
+                            Console.SetCursorPosition(x - 3, y);
+                            Console.ForegroundColor = ConsoleColor.Blue;
+                            Console.WriteLine("■■");
+                        }
+                        else
+                        {
+                            Console.SetCursorPosition(x - 3, y);
+                            Console.BackgroundColor = ConsoleColor.Black;
+                            Console.WriteLine("  ");
+                            y += 1;
+                            Console.SetCursorPosition(x - 3, y);
+                            Console.ForegroundColor = ConsoleColor.Blue;
+                            Console.WriteLine("■■");
+                        }
+                        break;
+                    case ConsoleKey.UpArrow:
+                        if (y == 5)  // First option of the menu
+                        {
+                            Console.SetCursorPosition(x - 3, y);
+                            Console.BackgroundColor = ConsoleColor.Black;
+                            Console.WriteLine("  ");
+                            y = 7;
+                            Console.SetCursorPosition(x - 3, y);
+                            Console.ForegroundColor = ConsoleColor.Blue;
+                            Console.WriteLine("■■");
+                        }
+                        else
+                        {
+                            Console.SetCursorPosition(x - 3, y);
+                            Console.BackgroundColor = ConsoleColor.Black;
+                            Console.WriteLine("  ");
+                            y -= 1;
+                            Console.SetCursorPosition(x - 3, y);
+                            Console.ForegroundColor = ConsoleColor.Blue;
+                            Console.WriteLine("■■");
+                        }
+                        break;
 
-            switch(selection)
-            {
-                case 1:
-                    GameLoop();
-                    break;
-                case 2:
-                    ViewInstructions();
-                    break;
-                case 3:
-                    Exit();
-                    break;
-                default:
-                    Console.Beep(1000, 50);
-                    Menu();
-                    break;
-            }
+                    case ConsoleKey.Enter:
+                        if (y == 5)
+                        {
+                            Console.ResetColor();
+                            GameLoop();
+                        }
+                        else
+                        if (y == 6)
+                        {
+                            viewInstruction(); // To do 
+                            Console.ReadKey();
+                            menu();
+                        }
+
+                        if (y == 7)
+                        {
+                            // The game is stopped and ended by user
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine("Tryck på en knapp!");
+                            exit();
+                        }
+
+                        break;
+                    default:
+                        break;
+                }
+                Console.CursorVisible = false;
+            } while (true);
         }
         public static void ViewInstructions()
         {
+            Console.ResetColor();
+            Console.Clear();
             Console.WriteLine("Instruktioner...");
             Console.ReadKey();
             Menu();
@@ -68,7 +135,7 @@ namespace oop_game
 
         public static void Exit()
         {
-            Console.WriteLine("Tryck på en knapp");
+            Console.ResetColor();
             Console.ReadKey();
             Environment.Exit(0);
         }
@@ -89,7 +156,7 @@ namespace oop_game
                     break;
                 case ConsoleKey.LeftArrow:
                     ErasePlayer();
-                    _gameSession.Move(-1, 0); 
+                    _gameSession.Move(-1, 0);
                     break;
                 case ConsoleKey.RightArrow:
                     ErasePlayer();
@@ -99,6 +166,10 @@ namespace oop_game
                     Console.Clear();
                         Menu();
                         break;
+                  Console.Clear(); 
+                    menu();
+                    break;
+
             }
         }
         private static void GameLoop()
@@ -152,3 +223,4 @@ namespace oop_game
         }
     }
 }
+
