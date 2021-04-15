@@ -52,7 +52,7 @@ namespace oop_game
         public int level;
         public string PlayerModel;
         public ConsoleColor PlayerColor;
-        //public List<Item> inventory;
+        public List<Item> inventory;
         public Player(int startX, int startY)
         {
             X = startX;
@@ -63,6 +63,13 @@ namespace oop_game
             ExperiencePoints = 0;
             _hitPoints = 50;
             _attackDamage = 10;
+
+            // Add starting weapon and potion
+            inventory = new List<Item>
+            {
+                new Weapon(5),
+                new Potion(3,7)
+            };
             //health = 100;
         }
         private void LevelUp()

@@ -12,5 +12,10 @@ namespace oop_game
         {
             AttackDamage = attackDamage;
         }
+
+        //public override string ToString()
+        //{
+        //    return $"Weapon - AttackDamage: {AttackDamage}";
+        //}
     }
 }
