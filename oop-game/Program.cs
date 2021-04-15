@@ -22,15 +22,6 @@ namespace oop_game
 
         public static void Menu()
         {
-            bool validChoice;
-            int selection;
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.CursorVisible = false;
-            menu();
-        }
-
-        public static void menu()
-        {
             Console.Clear();
             int x = 5, y = 5; // Position of the menu on the screen
             Console.ForegroundColor = ConsoleColor.DarkYellow;
@@ -104,9 +95,9 @@ namespace oop_game
                         else
                         if (y == 6)
                         {
-                            viewInstruction(); // To do 
+                            ViewInstructions(); // To do 
                             Console.ReadKey();
-                            menu();
+                            Menu();
                         }
 
                         if (y == 7)
@@ -114,7 +105,7 @@ namespace oop_game
                             // The game is stopped and ended by user
                             Console.ForegroundColor = ConsoleColor.Green;
                             Console.WriteLine("Tryck på en knapp!");
-                            exit();
+                            Exit();
                         }
 
                         break;
@@ -166,8 +157,9 @@ namespace oop_game
                     Console.Clear();
                         Menu();
                         break;
+                default:
                   Console.Clear(); 
-                    menu();
+                    Menu();
                     break;
 
             }
