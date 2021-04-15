@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace oop_game
@@ -11,11 +12,15 @@ namespace oop_game
         {
             _gameSession = new GameSession();
             buffer = _gameSession.currentMaze.Buffer;
-            Console.CursorVisible = false;
-            menu();
+
+            Console.CursorVisible = true;
+            
+            Menu();
+            //GameLoop();
         }
 
-        public static void menu()
+
+        public static void Menu()
         {
             Console.Clear();
             int x = 5, y = 5; // Position of the menu on the screen
@@ -90,9 +95,9 @@ namespace oop_game
                         else
                         if (y == 6)
                         {
-                            viewInstruction(); // To do 
+                            ViewInstructions(); // To do 
                             Console.ReadKey();
-                            menu();
+                            Menu();
                         }
 
                         if (y == 7)
@@ -100,7 +105,7 @@ namespace oop_game
                             // The game is stopped and ended by user
                             Console.ForegroundColor = ConsoleColor.Green;
                             Console.WriteLine("Tryck på en knapp!");
-                            exit();
+                            Exit();
                         }
 
                         break;
@@ -110,15 +115,16 @@ namespace oop_game
                 Console.CursorVisible = false;
             } while (true);
         }
-        public static void viewInstruction()
+        public static void ViewInstructions()
         {
             Console.ResetColor();
             Console.Clear();
             Console.WriteLine("Instruktioner...");
             Console.ReadKey();
+            Menu();
         }
 
-        public static void exit()
+        public static void Exit()
         {
             Console.ResetColor();
             Console.ReadKey();
@@ -148,9 +154,14 @@ namespace oop_game
                     _gameSession.Move(1, 0);
                     break;
                 case ConsoleKey.Escape:
-                    Console.Clear(); 
-                    menu();
+                    Console.Clear();
+                        Menu();
+                        break;
+                default:
+                  Console.Clear(); 
+                    Menu();
                     break;
+
             }
         }
         private static void GameLoop()
@@ -162,10 +173,21 @@ namespace oop_game
             while (true)
             {
                 DrawPlayer();
+                DrawEnemy();
                 PlayerInput();
             }
         }
-
+        public static void DrawEnemy()
+        {
+            foreach(Enemy enemy in _gameSession.enemies)
+            {
+                //Console.WriteLine(_gameSession.enemies.GetType().GetProperty(_gameSession.enemies.ToString())); 
+                Console.ForegroundColor = enemy.Color;
+                Console.SetCursorPosition(enemy.X, enemy.Y);
+                Console.Write(enemy.Model);
+                Console.ResetColor();
+            }           
+        }
         public static void DrawPlayer()
         {
             Console.ForegroundColor = _gameSession.currentPlayer.PlayerColor;
