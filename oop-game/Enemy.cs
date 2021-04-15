@@ -33,8 +33,8 @@ namespace oop_game
                 return _hitPoints;
             }
         }
-        //public List<Item> inventory;
-        public Enemy(int startX, int startY)
+        public List<Item> Drops;
+        public Enemy(int startX, int startY, Item drop = null)
         {
             Random testRNG = new Random();
             X = startX;
@@ -44,7 +44,16 @@ namespace oop_game
             level = 1;
             _hitPoints = level * testRNG.Next(5,20);
             _attackDamage = level * 20;
-        }
+            Drops = new List<Item>();
+            if(drop != null)
+            {
+                drop.X = startX;
+                drop.Y = startY;
+                Drops.Add(drop);
+            }
+ 
+ 
+            }
 
         public int Attack()
         {
