@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading;
 
+
 namespace oop_game
 {
     class Program
@@ -18,12 +19,18 @@ namespace oop_game
 
         static GameSession _gameSession;
         static byte[] buffer;
+        [DllImport("kernel32.dll", ExactSpelling = true)]
+        private static extern IntPtr GetConsoleWindow();
+        private static IntPtr ThisConsole = GetConsoleWindow();
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+        private const int MAXIMIZE = 3;
         static void Main(string[] args)
         {
+
             // Open game (console) in full screen
             Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
             ShowWindow(ThisConsole, MAXIMIZE);
-
             _gameSession = new GameSession();
             buffer = _gameSession.currentMaze.Buffer;
 
@@ -36,6 +43,7 @@ namespace oop_game
 
         public static void Menu()
         {
+            
             Console.Clear();
             int x = 5, y = 5; // Position of the menu on the screen
             Console.ForegroundColor = ConsoleColor.DarkYellow;
@@ -172,8 +180,6 @@ namespace oop_game
                         Menu();
                         break;
                 default:
-                  Console.Clear(); 
-                    Menu();
                     break;
 
             }
@@ -185,12 +191,20 @@ namespace oop_game
             Console.Clear();
             Console.ResetColor();
             FastDraw(buffer);
+
+            var cursorpos = Console.CursorTop + 1;
             StatusBar();
+
             while (true)
             {
                 DrawPlayer();
                 DrawEnemy();
                 PlayerInput();
+                Console.CursorTop = cursorpos;
+                Console.WriteLine(" ");
+                Console.CursorTop = cursorpos;
+                StatusBar();
+
             }
         }
         public static void DrawEnemy()
@@ -230,13 +244,13 @@ namespace oop_game
 
         public static void StatusBar()
         {
-            int health = _gameSession.currentPlayer.health;
-            Console.WriteLine("Health: {0}/100", health);
-            Console.WriteLine("Health: {0}/100", health);
-            Console.WriteLine("Health: {0}/100", health);
-            Console.WriteLine("Health: {0}/100", health);
-        }
 
+            
+            Console.WriteLine("Health: {0}", _gameSession.currentPlayer.HitPoints);
+            Console.WriteLine("Attack: {0}", _gameSession.currentPlayer.AttackDamage);
+            Console.WriteLine("Level: {0}", _gameSession.currentPlayer.level);
+            Console.WriteLine("EXP: {0}", _gameSession.currentPlayer.ExperiencePoints);
+        }
 
     }
 }

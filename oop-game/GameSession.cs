@@ -37,13 +37,29 @@ namespace oop_game
                 currentPlayer.Y = y;
                 
             }
-            if (IsEnemy(x, y))
+            if (IsEnemy(x, y) != null)
             {
                 //FIGHT
+                Fighting(IsEnemy(x, y));
                 currentMaze.Grid[y, x] = " ";
-                Console.WriteLine("HEJHOPP");
+                
             }
             
+        }
+
+        public void Fighting(Enemy enemyToFight)
+        {
+           Fight currentFight = new Fight(currentPlayer, enemyToFight);
+            while (currentFight.fightDone == false)
+            {
+                currentFight.TakeTurn();
+            }
+            if (currentPlayer.HitPoints > 0)
+            {
+                enemies.Remove(enemyToFight);
+            }
+
+
         }
 
         public bool IsValidMove(int x, int y)
@@ -53,21 +69,21 @@ namespace oop_game
             //returns true if new move goes to an empty space
             return currentMaze.Grid[y, x] == " ";
         }
-        public bool IsEnemy(int x, int y)
+        public Enemy IsEnemy(int x, int y)
         {
-            if (currentMaze.Grid[y, x] == "X")
-            {
-                return true;
-            }
+            //if (currentMaze.Grid[y, x] == "X")
+            //{
+            //    return true;
+            //}
             
             foreach (Enemy enemy in enemies)
             {
                 if(enemy.X == x && enemy.Y == y)
                 {
-                    return true;
+                    return enemy;
                 }
             }
-            return false;
+            return null;
         }
     }
 }
