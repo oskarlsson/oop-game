@@ -1,15 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Threading;
 
 namespace oop_game
 {
     class Program
     {
+        // Used for full screen mode
+        [DllImport("kernel32.dll", ExactSpelling = true)]
+        private static extern IntPtr GetConsoleWindow();
+        private static IntPtr ThisConsole = GetConsoleWindow();
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+        private const int MAXIMIZE = 3;
+
+
         static GameSession _gameSession;
         static byte[] buffer;
         static void Main(string[] args)
         {
+            // Open game (console) in full screen
+            Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
+            ShowWindow(ThisConsole, MAXIMIZE);
+
             _gameSession = new GameSession();
             buffer = _gameSession.currentMaze.Buffer;
 
