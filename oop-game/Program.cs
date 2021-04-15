@@ -244,7 +244,7 @@ namespace oop_game
             {
                 // fill
 
-                stdout.Write(buffer, 3, buffer.Length - 3);
+                stdout.Write(buffer, 0, buffer.Length);
                 // rinse and repeat
             }
         }
