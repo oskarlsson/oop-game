@@ -148,7 +148,7 @@ namespace oop_game
                     _gameSession.Move(1, 0);
                     break;
                 case ConsoleKey.Escape:
-                    Console.Clear();
+                    Console.Clear(); 
                     menu();
                     break;
             }
