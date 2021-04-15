@@ -68,7 +68,7 @@ namespace oop_game
             inventory = new List<Item>
             {
                 new Weapon(5),
-                new Potion(3,7)
+                //new Potion(3,7)
             };
             //health = 100;
         }

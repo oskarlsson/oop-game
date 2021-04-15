@@ -253,6 +253,17 @@ namespace oop_game
 
         public static void StatusBar()
         {
+            List<Potion> potions = _gameSession.currentPlayer.inventory.OfType<Potion>().ToList();
+            List<Weapon> weapons = _gameSession.currentPlayer.inventory.OfType<Weapon>().ToList();
+            int healthBuff = 0;
+            int damageBuff = 0;
+            potions.ForEach(potion => healthBuff += potion.HealEffect);
+            potions.ForEach(potion => damageBuff += potion.AttackEffect);
+            weapons.ForEach(weapon => damageBuff += weapon.AttackDamage);
+
+
+
+
             // Position
             Console.ResetColor();
             Console.Write("Position: {0},{1}", _gameSession.currentPlayer.X, _gameSession.currentPlayer.Y);
@@ -263,10 +274,7 @@ namespace oop_game
             Console.Write("Health: {0}".PadLeft(50), _gameSession.currentPlayer.HitPoints);
 
             // Show how much potion adds to health
-            if (_gameSession.currentPlayer.inventory.OfType<Potion>().Any())
-            {
-                Console.Write($" (+{_gameSession.currentPlayer.inventory.OfType<Potion>().First().HealEffect})");
-            }
+            Console.Write($" (+{healthBuff})");
 
 
             // Attack
@@ -274,12 +282,9 @@ namespace oop_game
             Console.Write("Attack: {0}".PadLeft(20), _gameSession.currentPlayer.AttackDamage);
 
             // Show how much weapon and potion adds to damage
-            if (_gameSession.currentPlayer.inventory.OfType<Weapon>().Any() || _gameSession.currentPlayer.inventory.OfType<Potion>().Any())
-            {
-                Console.Write($" (+{_gameSession.currentPlayer.inventory.OfType<Weapon>().First().AttackDamage + _gameSession.currentPlayer.inventory.OfType<Potion>().First().AttackEffect})");
-            }
+            Console.Write($" (+{damageBuff})");
 
-            
+
             // Level
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Write("Level: {0}".PadLeft(20), _gameSession.currentPlayer.level);

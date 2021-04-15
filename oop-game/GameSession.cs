@@ -27,6 +27,13 @@ namespace oop_game
             enemies.Add(enemy2);
             enemies.Add(enemy1);
             drops = new List<Item>();
+
+            // Add random potion to map
+            drops.Add(new Potion(1, 1)
+            {
+                X = 5,
+                Y = 5
+            });
         }
         public void Move(int x, int y)
         {
@@ -45,6 +52,12 @@ namespace oop_game
                 Fighting(IsEnemy(x, y));
                 currentMaze.Grid[y, x] = " ";
                 
+            }
+
+            if(IsDrop(x, y) != null)
+            {
+                //Console.WriteLine("drop");
+                currentPlayer.inventory.Add(IsDrop(x, y));
             }
             
         }
@@ -90,6 +103,18 @@ namespace oop_game
                 if(enemy.X == x && enemy.Y == y)
                 {
                     return enemy;
+                }
+            }
+            return null;
+        }
+
+        public Item IsDrop(int x, int y)
+        {
+            foreach (Item drop in drops)
+            {
+                if (drop.X == x && drop.Y == y)
+                {
+                    return drop;
                 }
             }
             return null;
