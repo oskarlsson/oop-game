@@ -185,7 +185,6 @@ namespace oop_game
             FastDraw(buffer);
 
             var cursorpos = Console.CursorTop + 1;
-            StatusBar();
 
             while (true)
             {
