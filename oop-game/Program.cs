@@ -28,35 +28,91 @@ namespace oop_game
 
             Console.CursorVisible = true;
 
-            Menu();
+            Menu("main");
             //GameLoop();
         }
 
 
-        public static void Menu()
-        {
-            
-            Console.Clear();
 
+
+        public static void settings()
+        {
+
+        }
+
+        public static void Menu(string menuStatus)
+        {
+            Console.Clear();
+            //_gameSession.currentPlayer.PlayerColor = ConsoleColor.Cyan;
             // Title
             ASCIIModel title = new ASCIIModel("ASCII/Title.txt");
             FastDraw(title.Buffer);
 
             int x = 10, y = 10; // Position of the menu on the screen
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.SetCursorPosition(5, 8);
-            Console.WriteLine("     Welcome {0} ", Environment.UserName);
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.SetCursorPosition(x, y);
-            Console.WriteLine("Spela ");
-            Console.SetCursorPosition(x, y + 1);
-            Console.WriteLine("Instruktioner");
-            Console.SetCursorPosition(x, y + 2);
-            Console.WriteLine("Avsluta");
-            Console.CursorVisible = false;
+            
+           
+
+
+            if (menuStatus=="main")
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.SetCursorPosition(5, 8);
+                Console.WriteLine("     Welcome {0} ", Environment.UserName);
+
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.SetCursorPosition(x, y);
+                Console.WriteLine("Spela ");
+                Console.SetCursorPosition(x, y + 1);
+                Console.WriteLine("Instruktioner");
+                Console.SetCursorPosition(x, y + 2);
+                Console.WriteLine("Inställningar");
+
+                Console.SetCursorPosition(x, y + 3);
+                Console.WriteLine("Avsluta");
+                Console.CursorVisible = false;
+            }
+            else
+            if(menuStatus=="subMenu_Settings")
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.SetCursorPosition(5, 8);
+                ConsoleColor color = _gameSession.currentPlayer.PlayerColor;
+                Console.WriteLine("Nuvarande färgen är             Välj en färg!       Esc = Huvudmenyn");
+                Console.SetCursorPosition(26, 8);
+                Console.ForegroundColor = color;
+               
+                Console.Write(color);
+                Console.SetCursorPosition(x, y);
+                Console.BackgroundColor = ConsoleColor.Green;
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("█████████");
+                Console.BackgroundColor = ConsoleColor.Magenta;
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.SetCursorPosition(x, y + 1);
+                Console.WriteLine("█████████");
+                Console.BackgroundColor = ConsoleColor.Blue;
+                Console.ForegroundColor = ConsoleColor.Blue;
+
+                Console.SetCursorPosition(x, y + 2);
+                Console.WriteLine("█████████");
+                Console.BackgroundColor = ConsoleColor.Yellow;
+                Console.ForegroundColor = ConsoleColor.Yellow;
+
+                Console.SetCursorPosition(x, y + 3);
+                Console.WriteLine("█████████");
+                Console.ResetColor();
+               
+            }
+
+
+
+
+
+
             do // Main loop for the menu. It continues until the user select 'AVSLUTA'
             {
                 Console.ForegroundColor = ConsoleColor.Blue;
+
                 Console.SetCursorPosition(x - 3, y);
                 Console.WriteLine("■■"); // Menu pointer
                 ConsoleKeyInfo keypress = Console.ReadKey(true);
@@ -64,7 +120,8 @@ namespace oop_game
                 switch (key)
                 {
                     case ConsoleKey.DownArrow:
-                        if (y == 12) // Last option of the menu
+                       
+                        if ( y==13) // Last option of the menu
                         {
                             Console.SetCursorPosition(x - 3, y);
                             Console.WriteLine("  ");
@@ -78,7 +135,9 @@ namespace oop_game
                             Console.SetCursorPosition(x - 3, y);
                             Console.BackgroundColor = ConsoleColor.Black;
                             Console.WriteLine("  ");
-                            y += 1;
+                           
+                                y += 1;
+                            
                             Console.SetCursorPosition(x - 3, y);
                             Console.ForegroundColor = ConsoleColor.Blue;
                             Console.WriteLine("■■");
@@ -90,7 +149,8 @@ namespace oop_game
                             Console.SetCursorPosition(x - 3, y);
                             Console.BackgroundColor = ConsoleColor.Black;
                             Console.WriteLine("  ");
-                            y = 12;
+                           
+                                y = 13;
                             Console.SetCursorPosition(x - 3, y);
                             Console.ForegroundColor = ConsoleColor.Blue;
                             Console.WriteLine("■■");
@@ -110,39 +170,106 @@ namespace oop_game
                     case ConsoleKey.Enter:
                         if (y == 10)
                         {
-                            Console.ResetColor();
-                            GameLoop();
-                        }
-                        else
-                        if (y == 11)
-                        {
-                            ViewInstructions(); // To do 
-                            Console.ReadKey();
-                            Menu();
+                            if (menuStatus == "main")
+                            {
+                                Console.ResetColor();
+                                GameLoop();
+                            }
+                            else
+                            {
+                                _gameSession.currentPlayer.PlayerColor = ConsoleColor.Green;
+                                changeColor_message(ConsoleColor.Green);
+
+                            }
                         }
 
-                        if (y == 12)
+                            if (y == 11)
+                            {
+                                if (menuStatus == "main")
+                                {
+                                    ViewInstructions(); // To do 
+                                    Console.ReadKey();
+                                    Menu("main");
+                                }
+                                else
+                                {
+                                    _gameSession.currentPlayer.PlayerColor = ConsoleColor.Magenta;
+                                    changeColor_message(ConsoleColor.Magenta);
+                                }
+
+
+                            }
+
+                            if (y == 12)
+                            {
+                                if (menuStatus == "main")
+                                {
+                                    Menu("subMenu_Settings");
+                                }
+                                else
+                                {
+                                    _gameSession.currentPlayer.PlayerColor = ConsoleColor.Blue;
+                                    changeColor_message(ConsoleColor.Blue);
+                                }
+                            }
+
+
+
+                        if (y == 13)
                         {
-                            // The game is stopped and ended by user
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine("Tryck på en knapp!");
-                            Exit();
+                            if (menuStatus == "main")
+                            {
+                                // The game is stopped and ended by user
+                                Console.ForegroundColor = ConsoleColor.Green;
+                                Console.WriteLine("Tryck på en knapp!");
+                                Exit();
+                            }
+                            else
+                            {
+
+                                _gameSession.currentPlayer.PlayerColor = ConsoleColor.Yellow;
+                                changeColor_message(ConsoleColor.Yellow);
+                            }
                         }
 
                         break;
+                    case ConsoleKey.Escape:
+                        if(menuStatus=="subMenu_Settings")
+                        Menu("main");
+                        break;
+
                     default:
                         break;
                 }
                 Console.CursorVisible = false;
             } while (true);
         }
+
+
+        public static void changeColor_message(ConsoleColor color)
+        {
+            Console.SetCursorPosition(15, 15);
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.Write("Spelarens färg ändrades till ");
+            Console.SetCursorPosition(45, 15);
+            Console.ForegroundColor = color;
+            Console.BackgroundColor = color;
+            Console.Write("██");
+            Console.ResetColor();
+            
+            Menu("subMenu_Settings");
+
+        }
+
+
+
         public static void ViewInstructions()
         {
             Console.ResetColor();
             Console.Clear();
             Console.WriteLine("Instruktioner...");
             Console.ReadKey();
-            Menu();
+            Menu("main");
         }
 
         public static void Exit()
@@ -176,7 +303,7 @@ namespace oop_game
                     break;
                 case ConsoleKey.Escape:
                     Console.Clear();
-                        Menu();
+                        Menu("main");
                         break;
                 default:
                     break;
