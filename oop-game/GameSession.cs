@@ -16,6 +16,7 @@ namespace oop_game
         public Enemy enemy2;
         public List<Enemy> enemies;
         public List<Item> drops;
+        public List<string> eventLogs;
 
         public GameSession()
         {
@@ -27,6 +28,7 @@ namespace oop_game
             enemies.Add(enemy2);
             enemies.Add(enemy1);
             drops = new List<Item>();
+            eventLogs = new List<string>();
 
             // Add random potion to map
             drops.Add(new Potion(1, 1)
@@ -56,7 +58,7 @@ namespace oop_game
 
             if(IsDrop(x, y) != null)
             {
-                //Console.WriteLine("drop");
+                eventLogs.Add("Picked up a " + IsDrop(x, y));
                 currentPlayer.inventory.Add(IsDrop(x, y));
             }
             
@@ -79,6 +81,7 @@ namespace oop_game
 
                 }
                 enemies.Remove(enemyToFight);
+                eventLogs.Add("You fought an enemy and won");
             }
 
 
