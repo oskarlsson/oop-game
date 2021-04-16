@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 
 
 namespace oop_game
@@ -15,6 +16,7 @@ namespace oop_game
     {
         static GameSession _gameSession;
         static byte[] buffer;
+        static byte[] clearBuffer;
         [DllImport("kernel32.dll", ExactSpelling = true)]
         private static extern IntPtr GetConsoleWindow();
         private static IntPtr ThisConsole = GetConsoleWindow();
@@ -27,7 +29,8 @@ namespace oop_game
             ShowWindow(ThisConsole, MAXIMIZE);
             _gameSession = new GameSession();
             buffer = _gameSession.currentMaze.Buffer;
-
+            //read in an empty file, used to clear the screen way faster than console.clear by overwriting everything with emptychars
+            clearBuffer = File.ReadAllBytes("ASCII/Clear.txt");
             Console.CursorVisible = true;
 
             Menu();
@@ -36,7 +39,7 @@ namespace oop_game
 
         public static void Menu()
         {
-            PrintAnimation();
+            //PrintAnimation();
             Console.Clear();
 
             // Title
@@ -160,19 +163,19 @@ namespace oop_game
             switch (key)
             {
                 case ConsoleKey.UpArrow:
-                    ErasePlayer();
+                    //ErasePlayer();
                     _gameSession.Move(0, -1);
                     break;
                 case ConsoleKey.DownArrow:
-                    ErasePlayer();
+                    //ErasePlayer();
                     _gameSession.Move(0, 1);
                     break;
                 case ConsoleKey.LeftArrow:
-                    ErasePlayer();
+                    //ErasePlayer();
                     _gameSession.Move(-1, 0);
                     break;
                 case ConsoleKey.RightArrow:
-                    ErasePlayer();
+                    //ErasePlayer();
                     _gameSession.Move(1, 0);
                     break;
                 case ConsoleKey.Escape:
@@ -194,6 +197,11 @@ namespace oop_game
 
             while (true)
             {
+                //"Console.Clear"
+                FastDraw(clearBuffer);
+                Console.CursorTop = 0;
+                //Redraw the maze and all characters on it
+                FastDraw(buffer);
                 DrawPlayer();
                 DrawEnemy();
                 DrawDrops();
@@ -234,13 +242,13 @@ namespace oop_game
             Console.Write(_gameSession.currentPlayer.PlayerModel);
             Console.ResetColor();
         }
-        public static void ErasePlayer()
-        {
-            Console.ForegroundColor = _gameSession.currentPlayer.PlayerColor;
-            Console.SetCursorPosition(_gameSession.currentPlayer.X, _gameSession.currentPlayer.Y);
-            Console.Write(" ");
-            Console.ResetColor();
-        }
+        //public static void ErasePlayer()
+        //{
+        //    Console.ForegroundColor = _gameSession.currentPlayer.PlayerColor;
+        //    Console.SetCursorPosition(_gameSession.currentPlayer.X, _gameSession.currentPlayer.Y);
+        //    Console.Write(" ");
+        //    Console.ResetColor();
+        //}
         public static void FastDraw(byte[] buffer)
         {
             using (var stdout = Console.OpenStandardOutput(buffer.Length))
