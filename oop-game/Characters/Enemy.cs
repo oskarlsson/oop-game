@@ -33,6 +33,7 @@ namespace oop_game
                 return _hitPoints;
             }
         }
+        public int experienceReward;
         public List<Item> Drops;
         public Enemy(int startX, int startY, Item drop = null)
         {
@@ -44,6 +45,7 @@ namespace oop_game
             level = 1;
             _hitPoints = level * testRNG.Next(5,20);
             _attackDamage = level * 20;
+            experienceReward = level * 10;
             Drops = new List<Item>();
             if(drop != null)
             {

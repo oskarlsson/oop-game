@@ -5,6 +5,9 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 
 
 namespace oop_game
@@ -13,6 +16,7 @@ namespace oop_game
     {
         static GameSession _gameSession;
         static byte[] buffer;
+        static byte[] clearBuffer;
         [DllImport("kernel32.dll", ExactSpelling = true)]
         private static extern IntPtr GetConsoleWindow();
         private static IntPtr ThisConsole = GetConsoleWindow();
@@ -25,9 +29,18 @@ namespace oop_game
             ShowWindow(ThisConsole, MAXIMIZE);
             _gameSession = new GameSession();
             buffer = _gameSession.currentMaze.Buffer;
+            //read in an empty file, used to clear the screen way faster than console.clear by overwriting everything with emptychars
+            clearBuffer = File.ReadAllBytes("ASCII/Clear.txt");
             Console.CursorVisible = true;
             Menu("main");
+            //GameLoop();
+
         }
+
+
+
+
+
         public static void Menu(string menuStatus) // Menu has two states, main menu and a submenu to change player's color
         {
             Console.Clear();
@@ -262,19 +275,19 @@ namespace oop_game
             switch (key)
             {
                 case ConsoleKey.UpArrow:
-                    ErasePlayer();
+                    //ErasePlayer();
                     _gameSession.Move(0, -1);
                     break;
                 case ConsoleKey.DownArrow:
-                    ErasePlayer();
+                    //ErasePlayer();
                     _gameSession.Move(0, 1);
                     break;
                 case ConsoleKey.LeftArrow:
-                    ErasePlayer();
+                    //ErasePlayer();
                     _gameSession.Move(-1, 0);
                     break;
                 case ConsoleKey.RightArrow:
-                    ErasePlayer();
+                    //ErasePlayer();
                     _gameSession.Move(1, 0);
                     break;
                 case ConsoleKey.Escape:
@@ -296,6 +309,11 @@ namespace oop_game
 
             while (true)
             {
+                //"Console.Clear"
+                FastDraw(clearBuffer);
+                Console.CursorTop = 0;
+                //Redraw the maze and all characters on it
+                FastDraw(buffer);
                 DrawPlayer();
                 DrawEnemy();
                 DrawDrops();
@@ -334,19 +352,18 @@ namespace oop_game
             Console.Write(_gameSession.currentPlayer.PlayerModel);
             Console.ResetColor();
         }
-        public static void ErasePlayer()
-        {
-            Console.ForegroundColor = _gameSession.currentPlayer.PlayerColor;
-            Console.SetCursorPosition(_gameSession.currentPlayer.X, _gameSession.currentPlayer.Y);
-            Console.Write(" ");
-            Console.ResetColor();
-        }
+        //public static void ErasePlayer()
+        //{
+        //    Console.ForegroundColor = _gameSession.currentPlayer.PlayerColor;
+        //    Console.SetCursorPosition(_gameSession.currentPlayer.X, _gameSession.currentPlayer.Y);
+        //    Console.Write(" ");
+        //    Console.ResetColor();
+        //}
         public static void FastDraw(byte[] buffer)
         {
             using (var stdout = Console.OpenStandardOutput(buffer.Length))
             {
                 // fill
-
                 stdout.Write(buffer, 0, buffer.Length);
                 // rinse and repeat
             }
@@ -364,33 +381,80 @@ namespace oop_game
 
             // Position
             Console.ResetColor();
-            Console.Write("Position: {0},{1}", _gameSession.currentPlayer.X, _gameSession.currentPlayer.Y);
+            Console.Write("Position: {0} , {1}", _gameSession.currentPlayer.X, _gameSession.currentPlayer.Y);
 
 
             // Health
+            Console.SetCursorPosition(50, 31);
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write("Health: {0}".PadLeft(50), _gameSession.currentPlayer.HitPoints);
+            Console.Write("Health: {0}", _gameSession.currentPlayer.HitPoints);
 
             // Show how much potion adds to health
             Console.Write($" (+{healthBuff})");
 
 
             // Attack
+            Console.SetCursorPosition(70, 31);
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write("Attack: {0}".PadLeft(20), _gameSession.currentPlayer.AttackDamage);
+            Console.Write("Attack: {0}", _gameSession.currentPlayer.AttackDamage);
 
             // Show how much weapon and potion adds to damage
             Console.Write($" (+{damageBuff})");
 
 
             // Level
+            Console.SetCursorPosition(90, 31);
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write("Level: {0}".PadLeft(20), _gameSession.currentPlayer.level);
+            Console.Write("Level: {0}", _gameSession.currentPlayer.level);
 
 
             // Experience
+            Console.SetCursorPosition(110, 31);
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write("EXP: {0}".PadLeft(20), _gameSession.currentPlayer.ExperiencePoints);
+            Console.Write("EXP: {0}", _gameSession.currentPlayer.ExperiencePoints);
+
+            // Logs
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.CursorTop += 2;
+            Console.CursorLeft = 0;
+            var lastFiveEntries = _gameSession.eventLogs
+                .Skip(Math.Max(0, _gameSession.eventLogs.Count() - 5)).ToList();
+
+            Console.SetCursorPosition(50, 34);
+            for (int i = 0; i < lastFiveEntries.Count; i++)
+            {
+                Console.CursorLeft = 50;
+                Console.WriteLine(lastFiveEntries[i]);
+            }
+            
+        }
+
+        public static void PrintAnimation()
+        {
+            Image Picture = Image.FromFile("test.png");
+            Console.SetBufferSize((Picture.Width * 0x2), (Picture.Height * 0x2));
+            Console.WindowWidth = 180;
+            Console.WindowHeight = 61;
+
+            FrameDimension Dimension = new FrameDimension(Picture.FrameDimensionsList[0x0]);
+            int FrameCount = Picture.GetFrameCount(Dimension);
+            int Left = Console.WindowLeft, Top = Console.WindowTop;
+            char[] Chars = { '#', '#', '@', '%', '=', '+', '*', ':', '-', '.', ' ' };
+            Picture.SelectActiveFrame(Dimension, 0x0);
+            for (int i = 0x0; i < Picture.Height; i++)
+            {
+                for (int x = 0x0; x < Picture.Width; x++)
+                {
+                    Color Color = ((Bitmap)Picture).GetPixel(x, i);
+                    int Gray = (Color.R + Color.G + Color.B) / 0x3;
+                    int Index = (Gray * (Chars.Length - 0x1)) / 0xFF;
+                    Console.Write(Chars[Index]);
+                }
+                Console.Write('\n');
+                Thread.Sleep(50);
+            }
+            //Console.SetCursorPosition(Left, Top);
+            //Console.Read();
         }
     }
 }

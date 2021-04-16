@@ -17,5 +17,10 @@ namespace oop_game
             HealEffect = hpEffect;
             AttackEffect = atkEffect;
         }
+
+        public override string ToString()
+        {
+            return $"Potion with +HP {HealEffect} and +ATK {AttackEffect}";
+        }
     }
 }
