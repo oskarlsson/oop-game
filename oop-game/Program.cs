@@ -5,6 +5,8 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 
 namespace oop_game
@@ -29,13 +31,12 @@ namespace oop_game
             Console.CursorVisible = true;
 
             Menu();
-            //GameLoop();
         }
 
 
         public static void Menu()
         {
-            
+            PrintAnimation();
             Console.Clear();
 
             // Title
@@ -305,6 +306,34 @@ namespace oop_game
                 Console.WriteLine(lastFiveEntries[i]);
             }
             
+        }
+
+        public static void PrintAnimation()
+        {
+            Image Picture = Image.FromFile("test.png");
+            Console.SetBufferSize((Picture.Width * 0x2), (Picture.Height * 0x2));
+            Console.WindowWidth = 180;
+            Console.WindowHeight = 61;
+
+            FrameDimension Dimension = new FrameDimension(Picture.FrameDimensionsList[0x0]);
+            int FrameCount = Picture.GetFrameCount(Dimension);
+            int Left = Console.WindowLeft, Top = Console.WindowTop;
+            char[] Chars = { '#', '#', '@', '%', '=', '+', '*', ':', '-', '.', ' ' };
+            Picture.SelectActiveFrame(Dimension, 0x0);
+            for (int i = 0x0; i < Picture.Height; i++)
+            {
+                for (int x = 0x0; x < Picture.Width; x++)
+                {
+                    Color Color = ((Bitmap)Picture).GetPixel(x, i);
+                    int Gray = (Color.R + Color.G + Color.B) / 0x3;
+                    int Index = (Gray * (Chars.Length - 0x1)) / 0xFF;
+                    Console.Write(Chars[Index]);
+                }
+                Console.Write('\n');
+                Thread.Sleep(50);
+            }
+            //Console.SetCursorPosition(Left, Top);
+            //Console.Read();
         }
     }
 }
