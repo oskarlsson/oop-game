@@ -274,7 +274,7 @@ namespace oop_game
 
             // Position
             Console.ResetColor();
-            Console.Write("Position: {0},{1}", _gameSession.currentPlayer.X, _gameSession.currentPlayer.Y);
+            Console.Write("Position: {0} , {1}", _gameSession.currentPlayer.X, _gameSession.currentPlayer.Y);
 
 
             // Health
