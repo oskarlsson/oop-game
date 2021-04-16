@@ -36,7 +36,7 @@ namespace oop_game
 
         public static void Menu()
         {
-            PrintAnimation();
+            //PrintAnimation();
             Console.Clear();
 
             // Title
