@@ -58,6 +58,7 @@ namespace oop_game
             {
                 //Console.WriteLine("drop");
                 currentPlayer.inventory.Add(IsDrop(x, y));
+                drops.Remove(IsDrop(x, y));
             }
             
         }
