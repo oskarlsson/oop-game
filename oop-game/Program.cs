@@ -278,29 +278,33 @@ namespace oop_game
 
 
             // Health
+            Console.SetCursorPosition(50, 31);
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write("Health: {0}".PadLeft(50), _gameSession.currentPlayer.HitPoints);
+            Console.Write("Health: {0}", _gameSession.currentPlayer.HitPoints);
 
             // Show how much potion adds to health
             Console.Write($" (+{healthBuff})");
 
 
             // Attack
+            Console.SetCursorPosition(70, 31);
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write("Attack: {0}".PadLeft(20), _gameSession.currentPlayer.AttackDamage);
+            Console.Write("Attack: {0}", _gameSession.currentPlayer.AttackDamage);
 
             // Show how much weapon and potion adds to damage
             Console.Write($" (+{damageBuff})");
 
 
             // Level
+            Console.SetCursorPosition(90, 31);
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write("Level: {0}".PadLeft(20), _gameSession.currentPlayer.level);
+            Console.Write("Level: {0}", _gameSession.currentPlayer.level);
 
 
             // Experience
+            Console.SetCursorPosition(110, 31);
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write("EXP: {0}".PadLeft(20), _gameSession.currentPlayer.ExperiencePoints);
+            Console.Write("EXP: {0}", _gameSession.currentPlayer.ExperiencePoints);
 
             // Logs
             Console.ForegroundColor = ConsoleColor.Gray;
