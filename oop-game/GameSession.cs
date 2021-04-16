@@ -83,7 +83,8 @@ namespace oop_game
 
                 }
                 enemies.Remove(enemyToFight);
-                eventLogs.Add("You fought an enemy and won");
+                currentPlayer.ExperiencePoints += enemyToFight.experienceReward;
+                eventLogs.Add($"You defeated an enemy and gained {enemyToFight.experienceReward} experience");
             }
 
 
