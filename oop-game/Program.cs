@@ -245,7 +245,6 @@ namespace oop_game
             using (var stdout = Console.OpenStandardOutput(buffer.Length))
             {
                 // fill
-
                 stdout.Write(buffer, 0, buffer.Length);
                 // rinse and repeat
             }
@@ -260,7 +259,7 @@ namespace oop_game
             potions.ForEach(potion => healthBuff += potion.HealEffect);
             potions.ForEach(potion => damageBuff += potion.AttackEffect);
             weapons.ForEach(weapon => damageBuff += weapon.AttackDamage);
-
+            
 
 
 
@@ -293,6 +292,19 @@ namespace oop_game
             // Experience
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.Write("EXP: {0}".PadLeft(20), _gameSession.currentPlayer.ExperiencePoints);
+
+            // Logs
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.CursorTop += 2;
+            Console.CursorLeft = 0;
+            var lastFiveEntries = _gameSession.eventLogs
+                .Skip(Math.Max(0, _gameSession.eventLogs.Count() - 5)).ToList();
+
+            for (int i = 0; i < lastFiveEntries.Count; i++)
+            {
+                Console.WriteLine(lastFiveEntries[i]);
+            }
+            
         }
     }
 }
