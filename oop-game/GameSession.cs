@@ -27,6 +27,7 @@ namespace oop_game
             enemies = new List<Enemy>();
             enemies.Add(enemy2);
             enemies.Add(enemy1);
+            enemies.Add(new Enemy(150, 20));
             drops = new List<Item>();
             eventLogs = new List<string>();
 
