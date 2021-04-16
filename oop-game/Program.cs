@@ -32,6 +32,11 @@ namespace oop_game
             //read in an empty file, used to clear the screen way faster than console.clear by overwriting everything with emptychars
             clearBuffer = File.ReadAllBytes("ASCII/Clear.txt");
             Console.CursorVisible = true;
+
+            ASCIIModel title = new ASCIIModel("ASCII/Title.txt");
+            FastDraw(title.Buffer);
+            PrintAnimation();
+            Thread.Sleep(3000);
             Menu("main");
             //GameLoop();
 
@@ -40,25 +45,15 @@ namespace oop_game
 
 
 
-        public static void settings()
-        {
 
-        }
-
-        public static void Menu(string menuStatus)
+        public static void Menu(string menuStatus) // Menu has two states, main menu and a submenu to change player's color
         {
             Console.Clear();
-            //_gameSession.currentPlayer.PlayerColor = ConsoleColor.Cyan;
-            // Title
             ASCIIModel title = new ASCIIModel("ASCII/Title.txt");
             FastDraw(title.Buffer);
-
             int x = 10, y = 10; // Position of the menu on the screen
-            
-           
 
-
-            if (menuStatus=="main")
+            if (menuStatus=="main") // Main Menu 
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.SetCursorPosition(5, 8);
@@ -77,16 +72,17 @@ namespace oop_game
                 Console.CursorVisible = false;
             }
             else
-            if(menuStatus=="subMenu_Settings")
+            if(menuStatus=="subMenu_Settings") // Submenu
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.SetCursorPosition(5, 8);
-                ConsoleColor color = _gameSession.currentPlayer.PlayerColor;
+                ConsoleColor color = _gameSession.currentPlayer.PlayerColor; // The current color of the player
                 Console.WriteLine("Nuvarande färgen är             Välj en färg!       Esc = Huvudmenyn");
                 Console.SetCursorPosition(26, 8);
                 Console.ForegroundColor = color;
-               
                 Console.Write(color);
+               
+                // To create a menu using a better illustration for user
                 Console.SetCursorPosition(x, y);
                 Console.BackgroundColor = ConsoleColor.Green;
                 Console.ForegroundColor = ConsoleColor.Green;
@@ -106,13 +102,8 @@ namespace oop_game
                 Console.SetCursorPosition(x, y + 3);
                 Console.WriteLine("█████████");
                 Console.ResetColor();
-               
+                
             }
-
-
-
-
-
 
             do // Main loop for the menu. It continues until the user select 'AVSLUTA'
             {
@@ -190,7 +181,7 @@ namespace oop_game
 
                             if (y == 11)
                             {
-                                if (menuStatus == "main")
+                                if (menuStatus == "main") // If 'Instruktioner' is selected
                                 {
                                     ViewInstructions(); // To do 
                                     Console.ReadKey();
@@ -205,7 +196,7 @@ namespace oop_game
 
                             }
 
-                            if (y == 12)
+                            if (y == 12) // If 'Inställningar' is selected
                             {
                                 if (menuStatus == "main")
                                 {
@@ -218,15 +209,12 @@ namespace oop_game
                                 }
                             }
 
-
-
                         if (y == 13)
                         {
                             if (menuStatus == "main")
                             {
                                 // The game is stopped and ended by user
-                                Console.ForegroundColor = ConsoleColor.Green;
-                                Console.WriteLine("Tryck på en knapp!");
+                                
                                 Exit();
                             }
                             else
@@ -238,9 +226,12 @@ namespace oop_game
                         }
 
                         break;
-                    case ConsoleKey.Escape:
-                        if(menuStatus=="subMenu_Settings")
-                        Menu("main");
+                    case ConsoleKey.Escape:    // Ability of ending the game using Esc key or jumping to the main menu from the submenu
+                        if (menuStatus == "subMenu_Settings")
+                            Menu("main");
+                        else
+                            if (menuStatus == "main")
+                            Exit();
                         break;
 
                     default:
@@ -250,8 +241,7 @@ namespace oop_game
             } while (true);
         }
 
-
-        public static void changeColor_message(ConsoleColor color)
+        public static void changeColor_message(ConsoleColor color)  // Color changing messge
         {
             Console.SetCursorPosition(15, 15);
             Console.ForegroundColor = ConsoleColor.DarkYellow;
@@ -260,15 +250,12 @@ namespace oop_game
             Console.ForegroundColor = color;
             Console.BackgroundColor = color;
             Console.Write("██");
+            Thread.Sleep(800);
             Console.ResetColor();
             
             Menu("subMenu_Settings");
-
         }
-
-
-
-        public static void ViewInstructions()
+        public static void ViewInstructions() //TDO
         {
             Console.ResetColor();
             Console.Clear();
@@ -277,9 +264,11 @@ namespace oop_game
             Menu("main");
         }
 
-        public static void Exit()
+        public static void Exit() // Exit the game
         {
             Console.ResetColor();
+            Console.SetCursorPosition(10, 15);
+            Console.WriteLine("Spelet är slut...       Tryck på en knapp!");
             Console.ReadKey();
             Environment.Exit(0);
         }
@@ -375,7 +364,6 @@ namespace oop_game
         {
             foreach(Enemy enemy in _gameSession.enemies)
             {
-                //Console.WriteLine(_gameSession.enemies.GetType().GetProperty(_gameSession.enemies.ToString())); 
                 Console.ForegroundColor = enemy.Color;
                 Console.SetCursorPosition(enemy.X, enemy.Y);
                 Console.Write(enemy.Model);
@@ -386,7 +374,6 @@ namespace oop_game
         {
             foreach (Item drop in _gameSession.drops)
             {
-                //Console.WriteLine(_gameSession.enemies.GetType().GetProperty(_gameSession.enemies.ToString())); 
                 Console.ForegroundColor = drop.itemColor;
                 Console.SetCursorPosition(drop.X, drop.Y);
                 Console.Write(drop.itemModel);
@@ -426,9 +413,6 @@ namespace oop_game
             potions.ForEach(potion => healthBuff += potion.HealEffect);
             potions.ForEach(potion => damageBuff += potion.AttackEffect);
             weapons.ForEach(weapon => damageBuff += weapon.AttackDamage);
-            
-
-
 
             // Position
             Console.ResetColor();
@@ -482,10 +466,13 @@ namespace oop_game
 
         public static void PrintAnimation()
         {
-            Image Picture = Image.FromFile("test.png");
-            Console.SetBufferSize((Picture.Width * 0x2), (Picture.Height * 0x2));
-            Console.WindowWidth = 180;
-            Console.WindowHeight = 61;
+            Image Picture = Image.FromFile("loading11.png");
+            
+            //Console.WindowWidth = 180;
+            //Console.WindowHeight = 61;
+            //Console.WindowWidth = 180;
+            //Console.WindowHeight = 140;
+            //Console.SetBufferSize((Picture.Width * 0x2), (Picture.Height * 0x2));
 
             FrameDimension Dimension = new FrameDimension(Picture.FrameDimensionsList[0x0]);
             int FrameCount = Picture.GetFrameCount(Dimension);
