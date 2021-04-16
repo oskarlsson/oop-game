@@ -8,7 +8,8 @@ using System.Threading;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-
+using System.Media;
+using NAudio.Wave;
 
 namespace oop_game
 {
@@ -35,9 +36,12 @@ namespace oop_game
 
             ASCIIModel title = new ASCIIModel("ASCII/Title.txt");
             FastDraw(title.Buffer);
+
             PrintAnimation();
             Thread.Sleep(3000);
             Menu("main");
+
+            
             //GameLoop();
 
         }
@@ -49,6 +53,13 @@ namespace oop_game
         public static void Menu(string menuStatus) // Menu has two states, main menu and a submenu to change player's color
         {
             Console.Clear();
+
+            using (var waveOut = new WaveOutEvent())
+            using (var wavReader = new WaveFileReader("sound.wav"))
+            {
+                waveOut.Init(wavReader);
+                waveOut.Play();
+            }
             ASCIIModel title = new ASCIIModel("ASCII/Title.txt");
             FastDraw(title.Buffer);
             int x = 10, y = 10; // Position of the menu on the screen
