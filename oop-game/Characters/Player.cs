@@ -47,6 +47,11 @@ namespace oop_game
                     _experiencePoints = value + _experiencePoints - 100;
                     LevelUp();
                 }
+                else
+                {
+                    _experiencePoints += value;
+                }
+               
             }
         }
         public int level;

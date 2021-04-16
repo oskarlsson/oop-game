@@ -26,6 +26,14 @@ namespace oop_game.Test
             Assert.Equal(1, gamesession.currentPlayer.ExperiencePoints);
             
         }
+        [Theory]
+        [InlineData(54)]
+        public void Test_GivesCorrectExp(int value)
+        {
+            gamesession.currentPlayer.ExperiencePoints += value;
+            Assert.Equal(54, gamesession.currentPlayer.ExperiencePoints);
+
+        }
         [Fact]
         public void Test_Levelup_callsLevelupWhenOver100()
         {

@@ -10,7 +10,13 @@ namespace oop_game
 
         public Weapon(int attackDamage)
         {
+            itemModel = "W";
+            itemColor = ConsoleColor.Magenta;
             AttackDamage = attackDamage;
+        }
+        public override string ToString()
+        {
+            return $"Weapon with +ATK {AttackDamage}";
         }
     }
 }
