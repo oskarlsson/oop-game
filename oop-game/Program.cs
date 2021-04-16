@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
 
 
@@ -25,7 +27,7 @@ namespace oop_game
             buffer = _gameSession.currentMaze.Buffer;
 
             Console.CursorVisible = true;
-            
+
             Menu();
             //GameLoop();
         }
@@ -251,11 +253,46 @@ namespace oop_game
 
         public static void StatusBar()
         {
-            
-            Console.WriteLine("Health: {0}", _gameSession.currentPlayer.HitPoints);
-            Console.WriteLine("Attack: {0}", _gameSession.currentPlayer.AttackDamage);
-            Console.WriteLine("Level: {0}", _gameSession.currentPlayer.level);
-            Console.WriteLine("EXP: {0}", _gameSession.currentPlayer.ExperiencePoints);
+            List<Potion> potions = _gameSession.currentPlayer.inventory.OfType<Potion>().ToList();
+            List<Weapon> weapons = _gameSession.currentPlayer.inventory.OfType<Weapon>().ToList();
+            int healthBuff = 0;
+            int damageBuff = 0;
+            potions.ForEach(potion => healthBuff += potion.HealEffect);
+            potions.ForEach(potion => damageBuff += potion.AttackEffect);
+            weapons.ForEach(weapon => damageBuff += weapon.AttackDamage);
+
+
+
+
+            // Position
+            Console.ResetColor();
+            Console.Write("Position: {0},{1}", _gameSession.currentPlayer.X, _gameSession.currentPlayer.Y);
+
+
+            // Health
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("Health: {0}".PadLeft(50), _gameSession.currentPlayer.HitPoints);
+
+            // Show how much potion adds to health
+            Console.Write($" (+{healthBuff})");
+
+
+            // Attack
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("Attack: {0}".PadLeft(20), _gameSession.currentPlayer.AttackDamage);
+
+            // Show how much weapon and potion adds to damage
+            Console.Write($" (+{damageBuff})");
+
+
+            // Level
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write("Level: {0}".PadLeft(20), _gameSession.currentPlayer.level);
+
+
+            // Experience
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("EXP: {0}".PadLeft(20), _gameSession.currentPlayer.ExperiencePoints);
         }
     }
 }
