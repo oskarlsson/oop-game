@@ -58,12 +58,13 @@ namespace oop_game
         public string PlayerModel;
         public ConsoleColor PlayerColor;
         public List<Item> inventory;
+       
         public Player(int startX, int startY)
         {
             X = startX;
             Y = startY;
             PlayerModel = "O";
-            PlayerColor = ConsoleColor.Green;
+            PlayerColor = ConsoleColor.Cyan;
             level = 1;
             ExperiencePoints = 0;
             _hitPoints = 50;
