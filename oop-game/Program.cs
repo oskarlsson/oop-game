@@ -313,8 +313,10 @@ namespace oop_game
             var lastFiveEntries = _gameSession.eventLogs
                 .Skip(Math.Max(0, _gameSession.eventLogs.Count() - 5)).ToList();
 
+            Console.SetCursorPosition(50, 34);
             for (int i = 0; i < lastFiveEntries.Count; i++)
             {
+                Console.CursorLeft = 50;
                 Console.WriteLine(lastFiveEntries[i]);
             }
             
