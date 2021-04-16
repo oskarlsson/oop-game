@@ -32,6 +32,11 @@ namespace oop_game
             //read in an empty file, used to clear the screen way faster than console.clear by overwriting everything with emptychars
             clearBuffer = File.ReadAllBytes("ASCII/Clear.txt");
             Console.CursorVisible = true;
+
+            ASCIIModel title = new ASCIIModel("ASCII/Title.txt");
+            FastDraw(title.Buffer);
+            PrintAnimation();
+            Thread.Sleep(3000);
             Menu("main");
             //GameLoop();
 
@@ -431,10 +436,13 @@ namespace oop_game
 
         public static void PrintAnimation()
         {
-            Image Picture = Image.FromFile("test.png");
+            Image Picture = Image.FromFile("loading10.png");
+            
+            //Console.WindowWidth = 180;
+            //Console.WindowHeight = 61;
+            Console.WindowWidth = 225;
+            //Console.WindowHeight = 140;
             Console.SetBufferSize((Picture.Width * 0x2), (Picture.Height * 0x2));
-            Console.WindowWidth = 180;
-            Console.WindowHeight = 61;
 
             FrameDimension Dimension = new FrameDimension(Picture.FrameDimensionsList[0x0]);
             int FrameCount = Picture.GetFrameCount(Dimension);
