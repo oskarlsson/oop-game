@@ -9,6 +9,8 @@ namespace oop_game
         Player _player;
         Enemy _enemy;
         public event EventHandler<string> fightlog;
+        public event EventHandler Death;
+        public event EventHandler<Enemy> Win;
         public bool isMonsterDead
         {
             get
@@ -33,6 +35,7 @@ namespace oop_game
             if (_enemy.HitPoints <= 0)
             {
                 fightDone = true;
+                OnWin(_enemy);
                 return;
                 
             }
@@ -40,8 +43,10 @@ namespace oop_game
             OnTurnTaken($"The monster did {_enemy.Attack()} to you");
             if (_player.HitPoints <= 0)
             {
+                
+                
+                OnDeath(EventArgs.Empty);
                 fightDone = true;
-                OnTurnTaken("You died");
             }
         }
         
@@ -49,6 +54,15 @@ namespace oop_game
         {
             EventHandler<string> handler = fightlog;
             handler.Invoke(this, fightdata);
+        }
+
+        protected virtual void OnDeath(EventArgs e)
+        {
+            Death?.Invoke(this, e);
+        }
+        protected virtual void OnWin(Enemy deadEnemy)
+        {
+            Win?.Invoke(this, deadEnemy);
         }
 
     }

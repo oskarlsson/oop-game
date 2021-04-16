@@ -78,31 +78,15 @@ namespace oop_game
         public void Fighting(Enemy enemyToFight)
         {
             currentFight = new Fight(currentPlayer, enemyToFight);
-            currentFight.fightlog += fight_OnTurnTaken;
+            currentFight.fightlog += Fight_OnTurnTaken;
+            currentFight.Win += Fight_OnWin;
+            currentFight.Death += Fight_OnDeath;
             currentMaze = currentFight.fightScene;
             inFight = true;
             //while (currentFight.fightDone == false)
             //{
             //    currentFight.TakeTurn();
             //}
-
-            
-            
-            
-            if (currentPlayer.HitPoints > 0)
-            {
-
-                foreach (Item item in enemyToFight.Drops)
-                {
-
-                    drops.Add(item);
-
-                }
-                enemies.Remove(enemyToFight);
-                currentPlayer.ExperiencePoints += enemyToFight.experienceReward;
-                eventLogs.Add($"You defeated an enemy and gained {enemyToFight.experienceReward} experience");
-            }
-
             //inFight = false;
         }
 
@@ -142,9 +126,30 @@ namespace oop_game
             return null;
         }
 
-        public void fight_OnTurnTaken(object sender, string fightlog)
+        public void Fight_OnTurnTaken(object sender, string fightlog)
         {
             eventLogs.Add(fightlog);
+        }
+        public void Fight_OnWin(object sender, Enemy deadEnemy)
+        {
+            Fight fight = (Fight)sender;
+            eventLogs.Add($"You defeated an enemy and gained {deadEnemy.experienceReward} experience");
+            foreach (Item item in deadEnemy.Drops)
+            {
+
+                drops.Add(item);
+
+            }
+            currentPlayer.ExperiencePoints += deadEnemy.experienceReward;
+            enemies.Remove(deadEnemy);
+            currentMaze = new ASCIIModel("ASCII/Level1.txt");
+            inFight = false;
+        }
+        public void Fight_OnDeath(object sender, EventArgs e)
+        {
+
+            eventLogs.Add($"You died                                     ");
+            inFight = false;
         }
     }
 }

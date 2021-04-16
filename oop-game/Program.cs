@@ -354,7 +354,7 @@ namespace oop_game
 
         public static void FightView()
         {
-            
+
             
             while (_gameSession.inFight)
             {
@@ -367,11 +367,9 @@ namespace oop_game
                 {
                     _gameSession.currentFight.TakeTurn();
                 }
-                if (_gameSession.currentFight.isMonsterDead || _gameSession.currentPlayer.HitPoints <= 0)
-                {
-                    _gameSession.inFight = false;
-                }
+
             }
+            StatusBar();
         }
         public static void DrawEnemy()
         {
