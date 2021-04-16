@@ -25,18 +25,9 @@ namespace oop_game
             ShowWindow(ThisConsole, MAXIMIZE);
             _gameSession = new GameSession();
             buffer = _gameSession.currentMaze.Buffer;
-
             Console.CursorVisible = true;
-
             Menu("main");
-            //GameLoop();
         }
-
-
-
-
-       
-
         public static void Menu(string menuStatus) // Menu has two states, main menu and a submenu to change player's color
         {
             Console.Clear();
@@ -93,7 +84,7 @@ namespace oop_game
                 Console.SetCursorPosition(x, y + 3);
                 Console.WriteLine("█████████");
                 Console.ResetColor();
-               
+                
             }
 
             do // Main loop for the menu. It continues until the user select 'AVSLUTA'
@@ -245,7 +236,6 @@ namespace oop_game
             Console.ResetColor();
             
             Menu("subMenu_Settings");
-
         }
         public static void ViewInstructions() //TDO
         {
@@ -321,7 +311,6 @@ namespace oop_game
         {
             foreach(Enemy enemy in _gameSession.enemies)
             {
-                //Console.WriteLine(_gameSession.enemies.GetType().GetProperty(_gameSession.enemies.ToString())); 
                 Console.ForegroundColor = enemy.Color;
                 Console.SetCursorPosition(enemy.X, enemy.Y);
                 Console.Write(enemy.Model);
@@ -332,7 +321,6 @@ namespace oop_game
         {
             foreach (Item drop in _gameSession.drops)
             {
-                //Console.WriteLine(_gameSession.enemies.GetType().GetProperty(_gameSession.enemies.ToString())); 
                 Console.ForegroundColor = drop.itemColor;
                 Console.SetCursorPosition(drop.X, drop.Y);
                 Console.Write(drop.itemModel);
@@ -373,9 +361,6 @@ namespace oop_game
             potions.ForEach(potion => healthBuff += potion.HealEffect);
             potions.ForEach(potion => damageBuff += potion.AttackEffect);
             weapons.ForEach(weapon => damageBuff += weapon.AttackDamage);
-
-
-
 
             // Position
             Console.ResetColor();
