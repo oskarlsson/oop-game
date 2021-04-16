@@ -436,13 +436,13 @@ namespace oop_game
 
         public static void PrintAnimation()
         {
-            Image Picture = Image.FromFile("loading10.png");
+            Image Picture = Image.FromFile("loading11.png");
             
             //Console.WindowWidth = 180;
             //Console.WindowHeight = 61;
-            Console.WindowWidth = 225;
+            //Console.WindowWidth = 180;
             //Console.WindowHeight = 140;
-            Console.SetBufferSize((Picture.Width * 0x2), (Picture.Height * 0x2));
+            //Console.SetBufferSize((Picture.Width * 0x2), (Picture.Height * 0x2));
 
             FrameDimension Dimension = new FrameDimension(Picture.FrameDimensionsList[0x0]);
             int FrameCount = Picture.GetFrameCount(Dimension);
