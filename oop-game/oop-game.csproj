@@ -24,6 +24,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="ASCII\FightScene.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="loading11.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
