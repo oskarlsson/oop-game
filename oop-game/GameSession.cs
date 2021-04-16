@@ -17,6 +17,8 @@ namespace oop_game
         public List<Enemy> enemies;
         public List<Item> drops;
         public List<string> eventLogs;
+        public bool inFight;
+        public Fight currentFight;
 
         public GameSession()
         {
@@ -75,11 +77,18 @@ namespace oop_game
 
         public void Fighting(Enemy enemyToFight)
         {
-           Fight currentFight = new Fight(currentPlayer, enemyToFight);
-            while (currentFight.fightDone == false)
-            {
-                currentFight.TakeTurn();
-            }
+            currentFight = new Fight(currentPlayer, enemyToFight);
+            currentFight.fightlog += fight_OnTurnTaken;
+            currentMaze = currentFight.fightScene;
+            inFight = true;
+            //while (currentFight.fightDone == false)
+            //{
+            //    currentFight.TakeTurn();
+            //}
+
+            
+            
+            
             if (currentPlayer.HitPoints > 0)
             {
 
@@ -94,7 +103,7 @@ namespace oop_game
                 eventLogs.Add($"You defeated an enemy and gained {enemyToFight.experienceReward} experience");
             }
 
-
+            //inFight = false;
         }
 
         public bool IsValidMove(int x, int y)
@@ -131,6 +140,11 @@ namespace oop_game
                 }
             }
             return null;
+        }
+
+        public void fight_OnTurnTaken(object sender, string fightlog)
+        {
+            eventLogs.Add(fightlog);
         }
     }
 }

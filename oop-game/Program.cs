@@ -317,6 +317,7 @@ namespace oop_game
         }
         private static void GameLoop()
         {
+
             Console.CursorVisible = false;
             Console.Clear();
             Console.ResetColor();
@@ -325,8 +326,17 @@ namespace oop_game
 
             while (true)
             {
+                if (_gameSession.currentPlayer.isAlive == false)
+                {
+                    _gameSession = new GameSession();
+                    Menu("main");
+                }
+                if (_gameSession.inFight)
+                {
+                    FightView();
+                }
                 //"Console.Clear"
-                FastDraw(clearBuffer);
+                //FastDraw(clearBuffer);
                 Console.CursorTop = 0;
                 //Redraw the maze and all characters on it
                 FastDraw(buffer);
@@ -339,6 +349,28 @@ namespace oop_game
                 Console.CursorTop = cursorpos;
                 StatusBar();
 
+            }
+        }
+
+        public static void FightView()
+        {
+            
+            
+            while (_gameSession.inFight)
+            {
+                Console.Clear();
+                FastDraw(_gameSession.currentMaze.Buffer);
+                StatusBar();
+                ConsoleKeyInfo keypress = Console.ReadKey(true);
+                ConsoleKey key = keypress.Key;
+                if (key == ConsoleKey.Enter)
+                {
+                    _gameSession.currentFight.TakeTurn();
+                }
+                if (_gameSession.currentFight.isMonsterDead || _gameSession.currentPlayer.HitPoints <= 0)
+                {
+                    _gameSession.inFight = false;
+                }
             }
         }
         public static void DrawEnemy()

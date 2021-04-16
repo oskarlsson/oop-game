@@ -43,7 +43,7 @@ namespace oop_game
             Model = "X";
             Color = ConsoleColor.Red;
             level = 1;
-            _hitPoints = level * testRNG.Next(5,20);
+            _hitPoints = level * testRNG.Next(10,40);
             _attackDamage = level * 20;
             experienceReward = level * 10;
             Drops = new List<Item>();

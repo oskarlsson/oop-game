@@ -8,6 +8,7 @@ namespace oop_game
     {
         public int X { get; set; }
         public int Y { get; set; }
+        public bool isAlive;
         //public int health { get; set; }
         private int _attackDamage;
         public int AttackDamage
@@ -26,6 +27,10 @@ namespace oop_game
             set
             {
                 _hitPoints = value;
+                if (_hitPoints <= 0)
+                {
+                    isAlive = false;
+                }
             }
             get
             {
@@ -33,6 +38,7 @@ namespace oop_game
                 return _hitPoints;
             }
         }
+
         private int _experiencePoints;
         public int ExperiencePoints
         {
@@ -69,6 +75,7 @@ namespace oop_game
             ExperiencePoints = 0;
             _hitPoints = 50;
             _attackDamage = 10;
+            isAlive = true;
 
             // Add starting weapon and potion
             inventory = new List<Item>
