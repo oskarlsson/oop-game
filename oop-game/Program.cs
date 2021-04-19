@@ -10,6 +10,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Media;
 using NAudio.Wave;
+using System.Threading.Tasks;
 
 namespace oop_game
 {
@@ -24,6 +25,9 @@ namespace oop_game
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
         private const int MAXIMIZE = 3;
+
+        static readonly WaveOutEvent outputDevice = new WaveOutEvent();
+        static AudioFileReader audioFile;
         static void Main(string[] args)
         {
             Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
@@ -38,28 +42,23 @@ namespace oop_game
             FastDraw(title.Buffer);
 
             PrintAnimation();
-            Thread.Sleep(3000);
+
             Menu("main");
-
-            
-            //GameLoop();
-
         }
 
-
-
-
+        public static void PlaySound(string filePath)
+        {
+            outputDevice.Stop();
+            audioFile = new AudioFileReader(filePath);
+            outputDevice.Init(audioFile);
+            outputDevice.Play();
+        }
 
         public static void Menu(string menuStatus) // Menu has two states, main menu and a submenu to change player's color
         {
+            PlaySound("Sound/Menu.mp3");
             Console.Clear();
 
-            using (var waveOut = new WaveOutEvent())
-            using (var wavReader = new WaveFileReader("sound.wav"))
-            {
-                waveOut.Init(wavReader);
-                waveOut.Play();
-            }
             ASCIIModel title = new ASCIIModel("ASCII/Title.txt");
             FastDraw(title.Buffer);
             int x = 10, y = 10; // Position of the menu on the screen
@@ -317,6 +316,11 @@ namespace oop_game
         }
         private static void GameLoop()
         {
+            PlaySound("Sound/Maze.mp3");
+            //outputDevice.Stop();
+            //audioFile = new AudioFileReader("Sound/Maze.mp3");
+            //outputDevice.Init(audioFile);
+            //outputDevice.Play();
 
             Console.CursorVisible = false;
             Console.Clear();
@@ -348,14 +352,12 @@ namespace oop_game
                 Console.WriteLine(" ");
                 Console.CursorTop = cursorpos;
                 StatusBar();
-
             }
         }
 
         public static void FightView()
         {
-
-            
+            PlaySound("Sound/Fight.mp3");
             while (_gameSession.inFight)
             {
                 Console.Clear();
