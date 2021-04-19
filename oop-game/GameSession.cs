@@ -134,7 +134,6 @@ namespace oop_game
         }
         public void Fight_OnWin(object sender, Enemy deadEnemy)
         {
-            Fight fight = (Fight)sender;
             eventLogs.Add($"You defeated an enemy and gained {deadEnemy.experienceReward} experience");
             foreach (Item item in deadEnemy.Drops)
             {
