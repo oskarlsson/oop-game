@@ -27,11 +27,12 @@ namespace oop_game.Test
             
         }
         [Theory]
-        [InlineData(54)]
+        [InlineData(25)]
         public void Test_GivesCorrectExp(int value)
         {
+            gamesession.currentPlayer.ExperiencePoints += 75;
             gamesession.currentPlayer.ExperiencePoints += value;
-            Assert.Equal(54, gamesession.currentPlayer.ExperiencePoints);
+            Assert.Equal(0, gamesession.currentPlayer.ExperiencePoints);
 
         }
         [Fact]
