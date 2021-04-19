@@ -332,6 +332,7 @@ namespace oop_game
                 //"Console.Clear"
                 //FastDraw(clearBuffer);
                 Console.CursorTop = 0;
+                Console.CursorLeft = 0;
                 //Redraw the maze and all characters on it
                 FastDraw(buffer);
                 DrawPlayer();
@@ -461,6 +462,13 @@ namespace oop_game
             var lastFiveEntries = _gameSession.eventLogs
                 .Skip(Math.Max(0, _gameSession.eventLogs.Count() - 5)).ToList();
 
+            //CLEAR the lines where we print the logs before printing them
+            Console.SetCursorPosition(50, 34);
+            for (int i = 0; i < 5; i++)
+            {
+                Console.CursorLeft = 50;
+                Console.WriteLine();
+            }
             Console.SetCursorPosition(50, 34);
             for (int i = 0; i < lastFiveEntries.Count; i++)
             {
