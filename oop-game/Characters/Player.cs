@@ -71,14 +71,11 @@ namespace oop_game
             }
             set
             {
-                if (value + _experiencePoints >= 100)
+                _experiencePoints = value;
+                if (_experiencePoints >= 100)
                 {
-                    _experiencePoints = value + _experiencePoints - 100;
                     LevelUp();
-                }
-                else
-                {
-                    _experiencePoints += value;
+                    
                 }
                
             }
@@ -113,6 +110,7 @@ namespace oop_game
             level++;
             _attackDamage += 3;
             _hitPoints += 10;
+            _experiencePoints -= 100;
         }
 
         public int Attack()
