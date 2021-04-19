@@ -64,11 +64,11 @@ namespace oop_game
             {
                 //FIGHT
                 Fighting(IsEnemy(x, y));
+
                 //currentMaze.Grid[y, x] = " ";
-                
             }
 
-            if(IsDrop(x, y) != null)
+            if (IsDrop(x, y) != null)
             {
                 eventLogs.Add("Picked up a " + IsDrop(x, y));
                 currentPlayer.inventory.Add(IsDrop(x, y));
