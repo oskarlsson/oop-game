@@ -32,7 +32,7 @@ namespace oop_game
             {
                 new Enemy(2, 10),
                 new Enemy(8, 4, new Potion(20, 1)),
-                new Enemy(150, 20),
+                new Enemy(150, 20, 3, "@"),
                 new Enemy(72, 17, new Weapon(7)),
                 new Enemy(21, 26)
             };
