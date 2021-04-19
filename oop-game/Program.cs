@@ -433,6 +433,7 @@ namespace oop_game
 
             // Position
             Console.ResetColor();
+            Console.SetCursorPosition(5, 31);
             Console.Write("Position: {0} , {1}", _gameSession.currentPlayer.X, _gameSession.currentPlayer.Y);
 
 
