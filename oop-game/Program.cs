@@ -30,10 +30,8 @@ namespace oop_game
             ShowWindow(ThisConsole, MAXIMIZE);
             _gameSession = new GameSession();
             buffer = _gameSession.currentMaze.Buffer;
-            //read in an empty file, used to clear the screen way faster than console.clear by overwriting everything with emptychars
             clearBuffer = File.ReadAllBytes("ASCII/Clear.txt");
             Console.CursorVisible = true;
-
             ASCIIModel title = new ASCIIModel("ASCII/Title.txt");
             FastDraw(title.Buffer);
 
@@ -41,29 +39,23 @@ namespace oop_game
             Thread.Sleep(3000);
             Menu("main");
 
-            
-            //GameLoop();
 
         }
-
-
-
-
-
         public static void Menu(string menuStatus) // Menu has two states, main menu and a submenu to change player's color
         {
             Console.Clear();
 
             ASCIIModel title = new ASCIIModel("ASCII/Title.txt");
             FastDraw(title.Buffer);
-            int x = 10, y = 10; // Position of the menu on the screen
-
+            //Centring display and positioning
+            int x = Console.WindowWidth / 2;
+            int y = Console.WindowHeight / 2 - 15;
+            string welcome_Message = "Welcome " + Environment.UserName;
             if (menuStatus=="main") // Main Menu 
             {
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.SetCursorPosition(5, 8);
-                Console.WriteLine("     Welcome {0} ", Environment.UserName);
-
+               // Console.ForegroundColor = ConsoleColor.Yellow;
+               // Console.SetCursorPosition(x-8, y-2);
+               // Console.WriteLine("     Welcome {0} ", Environment.UserName);
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.SetCursorPosition(x, y);
                 Console.WriteLine("Spela ");
@@ -71,22 +63,30 @@ namespace oop_game
                 Console.WriteLine("Instruktioner");
                 Console.SetCursorPosition(x, y + 2);
                 Console.WriteLine("Inställningar");
-
                 Console.SetCursorPosition(x, y + 3);
                 Console.WriteLine("Avsluta");
+                for(int i=0;i<welcome_Message.Length;i++)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.SetCursorPosition(x - 7+i, y - 2);
+                    Thread.Sleep(40);
+                    Console.WriteLine(welcome_Message[i]);
+                }
                 Console.CursorVisible = false;
             }
             else
             if(menuStatus=="subMenu_Settings") // Submenu
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.SetCursorPosition(5, 8);
+                Console.SetCursorPosition(x-24, y-2);
                 ConsoleColor color = _gameSession.currentPlayer.PlayerColor; // The current color of the player
-                Console.WriteLine("Nuvarande färgen är             Välj en färg!       Esc = Huvudmenyn");
-                Console.SetCursorPosition(26, 8);
+                Console.WriteLine("Nuvarande färgen                                   Esc = Huvudmenyn");
+                Console.SetCursorPosition(x+5, y -2);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write(" Välj en färg!");
+                Console.SetCursorPosition(x-7,y-2);
                 Console.ForegroundColor = color;
                 Console.Write(color);
-               
                 // To create a menu using a better illustration for user
                 Console.SetCursorPosition(x, y);
                 Console.BackgroundColor = ConsoleColor.Green;
@@ -107,13 +107,13 @@ namespace oop_game
                 Console.SetCursorPosition(x, y + 3);
                 Console.WriteLine("█████████");
                 Console.ResetColor();
-                
+               
             }
 
             do // Main loop for the menu. It continues until the user select 'AVSLUTA'
             {
                 Console.ForegroundColor = ConsoleColor.Blue;
-
+                Console.Beep(200,70);
                 Console.SetCursorPosition(x - 3, y);
                 Console.WriteLine("■■"); // Menu pointer
                 ConsoleKeyInfo keypress = Console.ReadKey(true);
@@ -224,7 +224,6 @@ namespace oop_game
                             }
                             else
                             {
-
                                 _gameSession.currentPlayer.PlayerColor = ConsoleColor.Yellow;
                                 changeColor_message(ConsoleColor.Yellow);
                             }
