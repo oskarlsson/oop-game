@@ -51,6 +51,7 @@ namespace oop_game
             outputDevice.Stop();
             audioFile = new AudioFileReader(filePath);
             outputDevice.Init(audioFile);
+            outputDevice.Volume = 0.1f;
             outputDevice.Play();
         }
 
