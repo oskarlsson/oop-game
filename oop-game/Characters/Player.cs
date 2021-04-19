@@ -15,8 +15,21 @@ namespace oop_game
         {
             get
             {
+                int dmg = 0;
+                foreach (Item item in inventory)
+                {
+                    switch (item)
+                    {
+                        case Weapon wep:
+                            dmg += wep.AttackDamage;
+                            break;
+                        case Potion pot:
+                            dmg += pot.AttackEffect;
+                            break;
+                    }
+                }
                 //Add weaponstats and potioneffects to this
-                return _attackDamage;
+                return _attackDamage + dmg;
             }
         }
         private int _hitPoints;
@@ -34,7 +47,6 @@ namespace oop_game
             }
             get
             {
-                //Add item effects to this
                 return _hitPoints;
             }
         }
@@ -48,14 +60,11 @@ namespace oop_game
             }
             set
             {
-                if (value + _experiencePoints >= 100)
+                _experiencePoints = value;
+                if (_experiencePoints >= 100)
                 {
-                    _experiencePoints = value + _experiencePoints - 100;
                     LevelUp();
-                }
-                else
-                {
-                    _experiencePoints += value;
+                    
                 }
                
             }
@@ -90,6 +99,7 @@ namespace oop_game
             level++;
             _attackDamage += 3;
             _hitPoints += 10;
+            _experiencePoints -= 100;
         }
 
         public int Attack()
@@ -97,5 +107,19 @@ namespace oop_game
             return AttackDamage;
         }
         
+        public void DrinkPotion(Potion pot)
+        {
+            if (pot.HealEffect > 0)
+            {
+                _hitPoints += pot.HealEffect;
+                
+            }
+            if (pot.AttackEffect > 0)
+            {
+                _attackDamage += pot.AttackEffect;
+            }
+
+            inventory.Remove(pot);
+        }
     }
 }
