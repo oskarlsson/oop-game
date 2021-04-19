@@ -38,7 +38,7 @@ namespace oop_game
             FastDraw(title.Buffer);
 
             PrintAnimation();
-            Thread.Sleep(3000);
+            Thread.Sleep(300);
             Menu("main");
 
             
