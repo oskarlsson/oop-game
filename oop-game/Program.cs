@@ -372,10 +372,10 @@ namespace oop_game
                 {
                     _gameSession.currentFight.TakeTurn();
                 }
-
             }
             StatusBar();
             Thread.Sleep(100);
+            PlaySound("Sound/Maze.mp3");
         }
         public static void DrawEnemy()
         {

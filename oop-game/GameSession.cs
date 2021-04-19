@@ -13,8 +13,6 @@ namespace oop_game
         public ASCIIModel currentMaze;
         public ASCIIModel fightView;
         public Player currentPlayer;
-        public Enemy enemy1;
-        public Enemy enemy2;
         public List<Enemy> enemies;
         public List<Item> drops;
         public List<string> eventLogs;
