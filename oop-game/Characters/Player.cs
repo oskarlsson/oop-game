@@ -15,8 +15,21 @@ namespace oop_game
         {
             get
             {
+                int dmg = 0;
+                foreach (Item item in inventory)
+                {
+                    switch (item)
+                    {
+                        case Weapon wep:
+                            dmg += wep.AttackDamage;
+                            break;
+                        case Potion pot:
+                            dmg += pot.AttackEffect;
+                            break;
+                    }
+                }
                 //Add weaponstats and potioneffects to this
-                return _attackDamage;
+                return _attackDamage + dmg;
             }
         }
         private int _hitPoints;
@@ -34,8 +47,18 @@ namespace oop_game
             }
             get
             {
+                int hp = 0;
+                foreach (Item item in inventory)
+                {
+                    switch (item)
+                    {
+                        case Potion pot:
+                            hp += pot.HealEffect;
+                            break;
+                    }
+                }
                 //Add item effects to this
-                return _hitPoints;
+                return hp + _hitPoints;
             }
         }
 
