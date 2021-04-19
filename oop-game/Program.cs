@@ -42,8 +42,9 @@ namespace oop_game
             FastDraw(title.Buffer);
 
             PrintAnimation();
-
+            PlaySound("Sound/Menu.mp3");
             Menu("main");
+            
         }
 
         public static void PlaySound(string filePath)
@@ -57,7 +58,7 @@ namespace oop_game
 
         public static void Menu(string menuStatus) // Menu has two states, main menu and a submenu to change player's color
         {
-            PlaySound("Sound/Menu.mp3");
+            //PlaySound("Sound/Menu.mp3");
             Console.Clear();
 
             ASCIIModel title = new ASCIIModel("ASCII/Title.txt");
