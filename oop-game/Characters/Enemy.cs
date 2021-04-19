@@ -45,7 +45,7 @@ namespace oop_game
             level = 1;
             _hitPoints = level * testRNG.Next(10,40);
             _attackDamage = level * 20;
-            experienceReward = level * 10;
+            experienceReward = level * 25;
             Drops = new List<Item>();
             if(drop != null)
             {
@@ -53,9 +53,26 @@ namespace oop_game
                 drop.Y = startY;
                 Drops.Add(drop);
             }
- 
- 
+        }
+        public Enemy(int startX, int startY, int lvl, string model, Item drop = null) 
+        {
+            Random testRNG = new Random();
+            X = startX;
+            Y = startY;
+            Model = model;
+            Color = ConsoleColor.Red;
+            level = lvl;
+            _hitPoints = level * testRNG.Next(10, 40);
+            _attackDamage = level * 2;
+            experienceReward = level * 25;
+            Drops = new List<Item>();
+            if (drop != null)
+            {
+                drop.X = startX;
+                drop.Y = startY;
+                Drops.Add(drop);
             }
+        }
 
         public int Attack()
         {
