@@ -38,7 +38,7 @@ namespace oop_game
             FastDraw(title.Buffer);
 
             PrintAnimation();
-            Thread.Sleep(3000);
+            Thread.Sleep(300);
             Menu("main");
 
             
@@ -122,11 +122,11 @@ namespace oop_game
                 {
                     case ConsoleKey.DownArrow:
                        
-                        if ( y==19) // Last option of the menu
+                        if ( y==13) // Last option of the menu
                         {
                             Console.SetCursorPosition(x - 3, y);
                             Console.WriteLine("  ");
-                            y = 16;
+                            y = 10;
                             Console.SetCursorPosition(x - 3, y);
                             Console.ForegroundColor = ConsoleColor.Blue;
                             Console.WriteLine("■■");
@@ -145,13 +145,13 @@ namespace oop_game
                         }
                         break;
                     case ConsoleKey.UpArrow:
-                        if (y == 16)  // First option of the menu
+                        if (y == 10)  // First option of the menu
                         {
                             Console.SetCursorPosition(x - 3, y);
                             Console.BackgroundColor = ConsoleColor.Black;
                             Console.WriteLine("  ");
                            
-                                y = 19;
+                                y = 13;
                             Console.SetCursorPosition(x - 3, y);
                             Console.ForegroundColor = ConsoleColor.Blue;
                             Console.WriteLine("■■");
@@ -169,7 +169,7 @@ namespace oop_game
                         break;
 
                     case ConsoleKey.Enter:
-                        if (y == 16)
+                        if (y == 10)
                         {
                             if (menuStatus == "main")
                             {
@@ -184,7 +184,7 @@ namespace oop_game
                             }
                         }
 
-                            if (y == 17)
+                            if (y == 11)
                             {
                                 if (menuStatus == "main") // If 'Instruktioner' is selected
                                 {
@@ -201,7 +201,7 @@ namespace oop_game
 
                             }
 
-                            if (y == 18) // If 'Inställningar' is selected
+                            if (y == 12) // If 'Inställningar' is selected
                             {
                                 if (menuStatus == "main")
                                 {
@@ -214,7 +214,7 @@ namespace oop_game
                                 }
                             }
 
-                        if (y == 19)
+                        if (y == 13)
                         {
                             if (menuStatus == "main")
                             {
