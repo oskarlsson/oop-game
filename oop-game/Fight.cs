@@ -11,6 +11,7 @@ namespace oop_game
         public event EventHandler<string> fightlog;
         public event EventHandler Death;
         public event EventHandler<Enemy> Win;
+        
         public bool isMonsterDead
         {
             get
