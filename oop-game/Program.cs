@@ -54,12 +54,6 @@ namespace oop_game
         {
             Console.Clear();
 
-            using (var waveOut = new WaveOutEvent())
-            using (var wavReader = new WaveFileReader("sound.wav"))
-            {
-                waveOut.Init(wavReader);
-                waveOut.Play();
-            }
             ASCIIModel title = new ASCIIModel("ASCII/Title.txt");
             FastDraw(title.Buffer);
             int x = 10, y = 10; // Position of the menu on the screen
@@ -359,7 +353,7 @@ namespace oop_game
             while (_gameSession.inFight)
             {
                 Console.Clear();
-                FastDraw(_gameSession.currentMaze.Buffer);
+                FastDraw(_gameSession.currentFight.fightScene.Buffer);
                 StatusBar();
                 ConsoleKeyInfo keypress = Console.ReadKey(true);
                 ConsoleKey key = keypress.Key;
@@ -370,6 +364,7 @@ namespace oop_game
 
             }
             StatusBar();
+            Thread.Sleep(100);
         }
         public static void DrawEnemy()
         {

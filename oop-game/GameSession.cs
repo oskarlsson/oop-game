@@ -11,6 +11,7 @@ namespace oop_game
     public class GameSession
     {
         public ASCIIModel currentMaze;
+        public ASCIIModel fightView;
         public Player currentPlayer;
         public Enemy enemy1;
         public Enemy enemy2;
@@ -23,6 +24,7 @@ namespace oop_game
         public GameSession()
         {
             currentMaze = new ASCIIModel("ASCII/Level1.txt");
+            
             currentPlayer = new Player(1, 1);
 
             // Add enemies to map
@@ -62,7 +64,7 @@ namespace oop_game
             {
                 //FIGHT
                 Fighting(IsEnemy(x, y));
-                currentMaze.Grid[y, x] = " ";
+                //currentMaze.Grid[y, x] = " ";
                 
             }
 
@@ -81,7 +83,7 @@ namespace oop_game
             currentFight.fightlog += Fight_OnTurnTaken;
             currentFight.Win += Fight_OnWin;
             currentFight.Death += Fight_OnDeath;
-            currentMaze = currentFight.fightScene;
+            
             inFight = true;
             //while (currentFight.fightDone == false)
             //{
@@ -95,7 +97,7 @@ namespace oop_game
             //check if new position is outside of level
            
             //returns true if new move goes to an empty space
-            return currentMaze.Grid[y, x] == " ";
+             return currentMaze.Grid[y, x] == " ";
         }
         public Enemy IsEnemy(int x, int y)
         {
@@ -142,7 +144,8 @@ namespace oop_game
             }
             currentPlayer.ExperiencePoints += deadEnemy.experienceReward;
             enemies.Remove(deadEnemy);
-            currentMaze = new ASCIIModel("ASCII/Level1.txt");
+            
+            
             inFight = false;
         }
         public void Fight_OnDeath(object sender, EventArgs e)
