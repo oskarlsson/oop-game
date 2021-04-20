@@ -29,6 +29,10 @@ namespace oop_game
             fightScene = new ASCIIModel("ASCII/FightScene.txt");
         }
 
+        public int GetEnemyHP()
+        {
+            return _enemy.HitPoints;
+        }
         public void TakeTurn()
         {
             _enemy.HitPoints -= _player.Attack();

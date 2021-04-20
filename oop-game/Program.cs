@@ -417,7 +417,8 @@ namespace oop_game
                     Console.WriteLine("            ");
 
                 }
-                
+                Console.SetCursorPosition(44, 2);
+                Console.WriteLine($"HP {_gameSession.currentFight.GetEnemyHP():00}");
                 Console.SetCursorPosition(30, 22);
                 Console.WriteLine("Fight");
                 Console.CursorLeft = 30;
