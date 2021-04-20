@@ -433,12 +433,13 @@ namespace oop_game
         public static void StatusBar()
         {
             List<Potion> potions = _gameSession.currentPlayer.inventory.OfType<Potion>().ToList();
-            List<Weapon> weapons = _gameSession.currentPlayer.inventory.OfType<Weapon>().ToList();
+            //List<Weapon> weapons = _gameSession.currentPlayer.inventory.OfType<Weapon>().ToList();
             int healthBuff = 0;
             int damageBuff = 0;
+            //int wepBuff = 0;
             potions.ForEach(potion => healthBuff += potion.HealEffect);
             potions.ForEach(potion => damageBuff += potion.AttackEffect);
-            weapons.ForEach(weapon => damageBuff += weapon.AttackDamage);
+            //weapons.ForEach(weapon => wepBuff += weapon.AttackDamage);
 
             // Position
             Console.ResetColor();
