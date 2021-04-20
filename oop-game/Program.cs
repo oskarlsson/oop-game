@@ -28,6 +28,8 @@ namespace oop_game
 
         static readonly WaveOutEvent outputDevice = new WaveOutEvent();
         static AudioFileReader audioFile;
+        
+        
         static void Main(string[] args)
         {
             Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
@@ -46,7 +48,6 @@ namespace oop_game
             Menu("main");
             
         }
-
         public static void PlaySound(string filePath)
         {
             outputDevice.Stop();
@@ -55,20 +56,35 @@ namespace oop_game
             outputDevice.Volume = 0.1f;
             outputDevice.Play();
         }
-
+        public static void showStars() // To show stars on the screen
+        {
+            Console.ResetColor();
+            Random rnd = new Random();
+            for (int i = 0; i < 250; i++)
+            {
+                int winWidth = (Console.WindowWidth);
+                int winHight = (Console.WindowHeight);
+                int yPosition = rnd.Next(0, winHight);  // creates a random position for Y
+                int xPosition = rnd.Next(0, winWidth);   // creates a random position for X
+                Console.SetCursorPosition(xPosition, yPosition);
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write(".");
+            }
+        }
         public static void Menu(string menuStatus) // Menu has two states, main menu and a submenu to change player's color
         {
-            //PlaySound("Sound/Menu.mp3");
             Console.Clear();
-
+            Console.ResetColor();
             ASCIIModel title = new ASCIIModel("ASCII/Title.txt");
             FastDraw(title.Buffer);
-            int x = 10, y = 10; // Position of the menu on the screen
+            showStars();
+            
+            int x = (Console.WindowWidth / 2), y = 10; // Position of the menu on the screen
 
             if (menuStatus=="main") // Main Menu 
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.SetCursorPosition(5, 8);
+                Console.SetCursorPosition(x-10, 8);
                 Console.WriteLine("     Welcome {0} ", Environment.UserName);
 
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
@@ -87,10 +103,10 @@ namespace oop_game
             if(menuStatus=="subMenu_Settings") // Submenu
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.SetCursorPosition(5, 8);
+                Console.SetCursorPosition(x-25, 8);
                 ConsoleColor color = _gameSession.currentPlayer.PlayerColor; // The current color of the player
                 Console.WriteLine("Nuvarande färgen är             Välj en färg!       Esc = Huvudmenyn");
-                Console.SetCursorPosition(26, 8);
+                Console.SetCursorPosition(x-5, 8);
                 Console.ForegroundColor = color;
                 Console.Write(color);
                
@@ -117,12 +133,21 @@ namespace oop_game
                 
             }
 
+           
+
+
+
             do // Main loop for the menu. It continues until the user select 'AVSLUTA'
             {
                 Console.ForegroundColor = ConsoleColor.Blue;
 
                 Console.SetCursorPosition(x - 3, y);
                 Console.WriteLine("■■"); // Menu pointer
+
+
+
+
+
                 ConsoleKeyInfo keypress = Console.ReadKey(true);
                 ConsoleKey key = keypress.Key;
                 switch (key)
@@ -255,10 +280,11 @@ namespace oop_game
 
         public static void changeColor_message(ConsoleColor color)  // Color changing messge
         {
-            Console.SetCursorPosition(15, 15);
+            int winWidth = (Console.WindowWidth / 2);
+            Console.SetCursorPosition(winWidth-10, 15);
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.Write("Spelarens färg ändrades till ");
-            Console.SetCursorPosition(45, 15);
+            Console.SetCursorPosition(winWidth+20, 15);
             Console.ForegroundColor = color;
             Console.BackgroundColor = color;
             Console.Write("██");
@@ -278,8 +304,9 @@ namespace oop_game
 
         public static void Exit() // Exit the game
         {
+            int x = (Console.WindowWidth / 2), y = 20;
             Console.ResetColor();
-            Console.SetCursorPosition(10, 15);
+            Console.SetCursorPosition(x-10, y);
             Console.WriteLine("Spelet är slut...       Tryck på en knapp!");
             Console.ReadKey();
             Environment.Exit(0);
