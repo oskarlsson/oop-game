@@ -298,6 +298,7 @@ namespace oop_game
             Console.Clear();
             Console.ResetColor();
             showStars();
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.SetCursorPosition(60, 20);
             Console.Write("* Move using the arrow keys");
             Console.SetCursorPosition(60, 22);
@@ -424,7 +425,9 @@ namespace oop_game
 
                 }
                 Console.SetCursorPosition(44, 2);
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.WriteLine($"HP {_gameSession.currentFight.GetEnemyHP():00}");
+                Console.ResetColor();
                 Console.SetCursorPosition(30, 22);
                 Console.WriteLine("Fight");
                 Console.CursorLeft = 30;
