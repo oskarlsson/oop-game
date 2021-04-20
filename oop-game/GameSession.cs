@@ -51,13 +51,7 @@ namespace oop_game
         {
             x += currentPlayer.X;
             y += currentPlayer.Y;
-            
-            if (IsValidMove(x, y))
-            {
-                currentPlayer.X = x;
-                currentPlayer.Y = y;
-                
-            }
+
             if (IsEnemy(x, y) != null)
             {
                 //FIGHT
@@ -65,6 +59,14 @@ namespace oop_game
 
                 //currentMaze.Grid[y, x] = " ";
             }
+
+            else if (IsValidMove(x, y))
+            {
+                currentPlayer.X = x;
+                currentPlayer.Y = y;
+                
+            }
+
 
             if (IsDrop(x, y) != null)
             {
@@ -126,6 +128,10 @@ namespace oop_game
             return null;
         }
 
+        public void RunFromFight()
+        {
+            inFight = false;
+        }
         public void Fight_OnTurnTaken(object sender, string fightlog)
         {
             eventLogs.Add(fightlog);
