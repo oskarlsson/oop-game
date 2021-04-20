@@ -23,9 +23,6 @@ namespace oop_game
                         case Weapon wep:
                             dmg += wep.AttackDamage;
                             break;
-                        case Potion pot:
-                            dmg += pot.AttackEffect;
-                            break;
                     }
                 }
                 //Add weaponstats and potioneffects to this
@@ -90,7 +87,7 @@ namespace oop_game
             inventory = new List<Item>
             {
                 new Weapon(5),
-                //new Potion(3,7)
+                new Potion(3,7)
             };
             //health = 100;
         }
@@ -100,6 +97,7 @@ namespace oop_game
             _attackDamage += 3;
             _hitPoints += 10;
             _experiencePoints -= 100;
+
         }
 
         public int Attack()
@@ -108,11 +106,10 @@ namespace oop_game
         }
         
         public void DrinkPotion(Potion pot)
-        {
+        {          
             if (pot.HealEffect > 0)
             {
-                _hitPoints += pot.HealEffect;
-                
+                _hitPoints += pot.HealEffect;                
             }
             if (pot.AttackEffect > 0)
             {
