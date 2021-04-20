@@ -89,14 +89,14 @@ namespace oop_game
 
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.SetCursorPosition(x, y);
-                Console.WriteLine("Spela ");
+                Console.WriteLine("Play game ");
                 Console.SetCursorPosition(x, y + 1);
-                Console.WriteLine("Instruktioner");
+                Console.WriteLine("Instructions");
                 Console.SetCursorPosition(x, y + 2);
-                Console.WriteLine("Inställningar");
+                Console.WriteLine("Settings");
 
                 Console.SetCursorPosition(x, y + 3);
-                Console.WriteLine("Avsluta");
+                Console.WriteLine("Quit game");
                 Console.CursorVisible = false;
             }
             else
@@ -105,7 +105,7 @@ namespace oop_game
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.SetCursorPosition(x-25, 8);
                 ConsoleColor color = _gameSession.currentPlayer.PlayerColor; // The current color of the player
-                Console.WriteLine("Nuvarande färgen är             Välj en färg!       Esc = Huvudmenyn");
+                Console.WriteLine("Current color is             Pick a color!       Esc = Main menu");
                 Console.SetCursorPosition(x-5, 8);
                 Console.ForegroundColor = color;
                 Console.Write(color);
@@ -283,7 +283,7 @@ namespace oop_game
             int winWidth = (Console.WindowWidth / 2);
             Console.SetCursorPosition(winWidth-10, 15);
             Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.Write("Spelarens färg ändrades till ");
+            Console.Write("Player color changed to ");
             Console.SetCursorPosition(winWidth+20, 15);
             Console.ForegroundColor = color;
             Console.BackgroundColor = color;
@@ -295,9 +295,16 @@ namespace oop_game
         }
         public static void ViewInstructions() //TDO
         {
-            Console.ResetColor();
             Console.Clear();
-            Console.WriteLine("Instruktioner...");
+            Console.ResetColor();
+            showStars();
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.SetCursorPosition(60, 20);
+            Console.Write("* Move using the arrow keys");
+            Console.SetCursorPosition(60, 22);
+            Console.Write("* Fight your way through the dungeon to earn experience points and weapon rewards to take on stronger enemeies");
+            Console.SetCursorPosition(60, 24);
+            Console.Write("* Heal up with potions from your inventory by pressing P during a fight");
             Console.ReadKey();
             Menu("main");
         }
@@ -307,7 +314,7 @@ namespace oop_game
             int x = (Console.WindowWidth / 2), y = 20;
             Console.ResetColor();
             Console.SetCursorPosition(x-10, y);
-            Console.WriteLine("Spelet är slut...       Tryck på en knapp!");
+            Console.WriteLine("Game exited...       Press any button!");
             Console.ReadKey();
             Environment.Exit(0);
         }
@@ -418,7 +425,9 @@ namespace oop_game
 
                 }
                 Console.SetCursorPosition(44, 2);
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.WriteLine($"HP {_gameSession.currentFight.GetEnemyHP():00}");
+                Console.ResetColor();
                 Console.SetCursorPosition(30, 22);
                 Console.WriteLine("Fight");
                 Console.CursorLeft = 30;
