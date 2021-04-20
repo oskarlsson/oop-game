@@ -384,22 +384,75 @@ namespace oop_game
                 StatusBar();
             }
         }
-
+        public static int Mod(int a , int b)
+        {
+            //returns a value between 0 and b-1
+            //implements modulo instead of remainder
+            if (a < 0)
+            {
+                if (b + (a % b) == b)
+                {
+                    return 0;
+                }
+                return b + (a % b);
+            }
+            return a % b;
+        }
         public static void FightView()
         {
             PlaySound("Sound/Fight.mp3");
+            int fightMenuCursor = 0;
+            Console.Clear();
+            FastDraw(_gameSession.currentFight.fightScene.Buffer);
             while (_gameSession.inFight)
             {
                 List<Potion> potions = _gameSession.currentPlayer.inventory.OfType<Potion>().ToList();
-                Console.Clear();
-                FastDraw(_gameSession.currentFight.fightScene.Buffer);
+                
+                
                 StatusBar();
+                //Clear previous arrow selection
+                for (int i = 0; i < 3; i++)
+                {
+                    Console.SetCursorPosition(25, 22 + i);
+                    Console.WriteLine("            ");
+
+                }
+                Console.SetCursorPosition(44, 2);
+                Console.WriteLine($"HP {_gameSession.currentFight.GetEnemyHP():00}");
+                Console.SetCursorPosition(30, 22);
+                Console.WriteLine("Fight");
+                Console.CursorLeft = 30;
+                Console.WriteLine("Inventory");
+                Console.CursorLeft = 30;
+                Console.WriteLine("Run");
+                Console.SetCursorPosition(25 ,22 + Mod(fightMenuCursor,3));
+                Console.WriteLine("-->");
                 ConsoleKeyInfo keypress = Console.ReadKey(true);
                 ConsoleKey key = keypress.Key;
+
                 switch (key)
                 {
                     case ConsoleKey.Enter:
-                        _gameSession.currentFight.TakeTurn();
+                        if (Mod(fightMenuCursor,3) == 0)
+                        {
+                            _gameSession.currentFight.TakeTurn();
+                        }
+                        else if (Mod(fightMenuCursor, 3) == 1)
+                        {
+                            //check inventory
+                        }
+                        else if (Mod(fightMenuCursor, 3) == 2)
+                        {
+                            _gameSession.RunFromFight();
+                        }
+                        
+                        break;
+                    case ConsoleKey.UpArrow:
+                        fightMenuCursor--;
+                        break;
+                    case ConsoleKey.DownArrow:
+                        fightMenuCursor++;
+                        
                         break;
                     case ConsoleKey.P:
                         foreach (Potion pot in potions)
