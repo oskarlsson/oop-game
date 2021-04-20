@@ -218,9 +218,9 @@ namespace oop_game
 
                         if (y == 11)
                         {
-                            if (menuStatus == "main") // If 'Instruktioner' is selected
+                            if (menuStatus == "main") // If 'Instructions' is selected
                             {
-                                ViewInstructions(); // To do 
+                                ViewInstructions();
                                 Console.ReadKey();
                                 Menu("main");
                             }
@@ -233,7 +233,7 @@ namespace oop_game
 
                         }
 
-                        if (y == 12) // If 'Inställningar' is selected
+                        if (y == 12) // If 'Settings' is selected
                         {
                             if (menuStatus == "main")
                             {
@@ -278,7 +278,7 @@ namespace oop_game
             } while (true);
         }
 
-        public static void changeColor_message(ConsoleColor color)  // Color changing messge
+        public static void changeColor_message(ConsoleColor color)  // Color changing msg
         {
             int winWidth = (Console.WindowWidth / 2);
             Console.SetCursorPosition(winWidth-10, 15);
@@ -293,7 +293,7 @@ namespace oop_game
 
             Menu("subMenu_Settings");
         }
-        public static void ViewInstructions() //TDO
+        public static void ViewInstructions()
         {
             Console.Clear();
             Console.ResetColor();
@@ -305,11 +305,15 @@ namespace oop_game
             Console.Write("* Fight your way through the dungeon to earn experience points and weapon rewards to take on stronger enemeies");
             Console.SetCursorPosition(60, 24);
             Console.Write("* Heal up with potions from your inventory by pressing P during a fight");
+            Console.SetCursorPosition(60, 26);
+            Console.Write("* Enemies are marked with an X on the map, Bosses are marked with @, to fight them simply walk into them");
+            Console.SetCursorPosition(60, 28);
+            Console.Write("* Weapons are marked with an W on the map, potions are marked P, to loot simply walk over them");
             Console.ReadKey();
             Menu("main");
         }
 
-        public static void Exit() // Exit the game
+        public static void Exit() 
         {
             int x = (Console.WindowWidth / 2), y = 20;
             Console.ResetColor();
@@ -326,19 +330,15 @@ namespace oop_game
             switch (key)
             {
                 case ConsoleKey.UpArrow:
-                    //ErasePlayer();
                     _gameSession.Move(0, -1);
                     break;
                 case ConsoleKey.DownArrow:
-                    //ErasePlayer();
                     _gameSession.Move(0, 1);
                     break;
                 case ConsoleKey.LeftArrow:
-                    //ErasePlayer();
                     _gameSession.Move(-1, 0);
                     break;
                 case ConsoleKey.RightArrow:
-                    //ErasePlayer();
                     _gameSession.Move(1, 0);
                     break;
                 case ConsoleKey.Escape:
@@ -353,10 +353,6 @@ namespace oop_game
         private static void GameLoop()
         {
             PlaySound("Sound/Maze.mp3");
-            //outputDevice.Stop();
-            //audioFile = new AudioFileReader("Sound/Maze.mp3");
-            //outputDevice.Init(audioFile);
-            //outputDevice.Play();
 
             Console.CursorVisible = false;
             Console.Clear();
@@ -375,8 +371,6 @@ namespace oop_game
                 {
                     FightView();
                 }
-                //"Console.Clear"
-                //FastDraw(clearBuffer);
                 Console.CursorTop = 0;
                 Console.CursorLeft = 0;
                 //Redraw the maze and all characters on it
@@ -418,7 +412,7 @@ namespace oop_game
                 
                 StatusBar();
                 //Clear previous arrow selection
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 2; i++)
                 {
                     Console.SetCursorPosition(25, 22 + i);
                     Console.WriteLine("            ");
@@ -431,10 +425,8 @@ namespace oop_game
                 Console.SetCursorPosition(30, 22);
                 Console.WriteLine("Fight");
                 Console.CursorLeft = 30;
-                Console.WriteLine("Inventory");
-                Console.CursorLeft = 30;
                 Console.WriteLine("Run");
-                Console.SetCursorPosition(25 ,22 + Mod(fightMenuCursor,3));
+                Console.SetCursorPosition(25 ,22 + Mod(fightMenuCursor,2));
                 Console.WriteLine("-->");
                 ConsoleKeyInfo keypress = Console.ReadKey(true);
                 ConsoleKey key = keypress.Key;
@@ -447,10 +439,6 @@ namespace oop_game
                             _gameSession.currentFight.TakeTurn();
                         }
                         else if (Mod(fightMenuCursor, 3) == 1)
-                        {
-                            //check inventory
-                        }
-                        else if (Mod(fightMenuCursor, 3) == 2)
                         {
                             _gameSession.RunFromFight();
                         }
