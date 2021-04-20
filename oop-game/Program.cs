@@ -46,7 +46,7 @@ namespace oop_game
             PrintAnimation();
             PlaySound("Sound/Menu.mp3");
             Menu("main");
-            
+
         }
         public static void PlaySound(string filePath)
         {
@@ -81,7 +81,7 @@ namespace oop_game
             
             int x = (Console.WindowWidth / 2), y = 10; // Position of the menu on the screen
 
-            if (menuStatus=="main") // Main Menu 
+            if (menuStatus == "main") // Main Menu 
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.SetCursorPosition(x-10, 8);
@@ -100,7 +100,7 @@ namespace oop_game
                 Console.CursorVisible = false;
             }
             else
-            if(menuStatus=="subMenu_Settings") // Submenu
+            if (menuStatus == "subMenu_Settings") // Submenu
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.SetCursorPosition(x-25, 8);
@@ -109,7 +109,7 @@ namespace oop_game
                 Console.SetCursorPosition(x-5, 8);
                 Console.ForegroundColor = color;
                 Console.Write(color);
-               
+
                 // To create a menu using a better illustration for user
                 Console.SetCursorPosition(x, y);
                 Console.BackgroundColor = ConsoleColor.Green;
@@ -130,7 +130,7 @@ namespace oop_game
                 Console.SetCursorPosition(x, y + 3);
                 Console.WriteLine("█████████");
                 Console.ResetColor();
-                
+
             }
 
            
@@ -153,8 +153,8 @@ namespace oop_game
                 switch (key)
                 {
                     case ConsoleKey.DownArrow:
-                       
-                        if ( y==13) // Last option of the menu
+
+                        if (y == 13) // Last option of the menu
                         {
                             Console.SetCursorPosition(x - 3, y);
                             Console.WriteLine("  ");
@@ -168,9 +168,9 @@ namespace oop_game
                             Console.SetCursorPosition(x - 3, y);
                             Console.BackgroundColor = ConsoleColor.Black;
                             Console.WriteLine("  ");
-                           
-                                y += 1;
-                            
+
+                            y += 1;
+
                             Console.SetCursorPosition(x - 3, y);
                             Console.ForegroundColor = ConsoleColor.Blue;
                             Console.WriteLine("■■");
@@ -182,8 +182,8 @@ namespace oop_game
                             Console.SetCursorPosition(x - 3, y);
                             Console.BackgroundColor = ConsoleColor.Black;
                             Console.WriteLine("  ");
-                           
-                                y = 13;
+
+                            y = 13;
                             Console.SetCursorPosition(x - 3, y);
                             Console.ForegroundColor = ConsoleColor.Blue;
                             Console.WriteLine("■■");
@@ -216,42 +216,42 @@ namespace oop_game
                             }
                         }
 
-                            if (y == 11)
+                        if (y == 11)
+                        {
+                            if (menuStatus == "main") // If 'Instruktioner' is selected
                             {
-                                if (menuStatus == "main") // If 'Instruktioner' is selected
-                                {
-                                    ViewInstructions(); // To do 
-                                    Console.ReadKey();
-                                    Menu("main");
-                                }
-                                else
-                                {
-                                    _gameSession.currentPlayer.PlayerColor = ConsoleColor.Magenta;
-                                    changeColor_message(ConsoleColor.Magenta);
-                                }
-
-
+                                ViewInstructions(); // To do 
+                                Console.ReadKey();
+                                Menu("main");
+                            }
+                            else
+                            {
+                                _gameSession.currentPlayer.PlayerColor = ConsoleColor.Magenta;
+                                changeColor_message(ConsoleColor.Magenta);
                             }
 
-                            if (y == 12) // If 'Inställningar' is selected
+
+                        }
+
+                        if (y == 12) // If 'Inställningar' is selected
+                        {
+                            if (menuStatus == "main")
                             {
-                                if (menuStatus == "main")
-                                {
-                                    Menu("subMenu_Settings");
-                                }
-                                else
-                                {
-                                    _gameSession.currentPlayer.PlayerColor = ConsoleColor.Blue;
-                                    changeColor_message(ConsoleColor.Blue);
-                                }
+                                Menu("subMenu_Settings");
                             }
+                            else
+                            {
+                                _gameSession.currentPlayer.PlayerColor = ConsoleColor.Blue;
+                                changeColor_message(ConsoleColor.Blue);
+                            }
+                        }
 
                         if (y == 13)
                         {
                             if (menuStatus == "main")
                             {
                                 // The game is stopped and ended by user
-                                
+
                                 Exit();
                             }
                             else
@@ -290,7 +290,7 @@ namespace oop_game
             Console.Write("██");
             Thread.Sleep(800);
             Console.ResetColor();
-            
+
             Menu("subMenu_Settings");
         }
         public static void ViewInstructions() //TDO
@@ -336,8 +336,8 @@ namespace oop_game
                     break;
                 case ConsoleKey.Escape:
                     Console.Clear();
-                        Menu("main");
-                        break;
+                    Menu("main");
+                    break;
                 default:
                     break;
 
@@ -390,14 +390,23 @@ namespace oop_game
             PlaySound("Sound/Fight.mp3");
             while (_gameSession.inFight)
             {
+                List<Potion> potions = _gameSession.currentPlayer.inventory.OfType<Potion>().ToList();
                 Console.Clear();
                 FastDraw(_gameSession.currentFight.fightScene.Buffer);
                 StatusBar();
                 ConsoleKeyInfo keypress = Console.ReadKey(true);
                 ConsoleKey key = keypress.Key;
-                if (key == ConsoleKey.Enter)
+                switch (key)
                 {
-                    _gameSession.currentFight.TakeTurn();
+                    case ConsoleKey.Enter:
+                        _gameSession.currentFight.TakeTurn();
+                        break;
+                    case ConsoleKey.P:
+                        foreach (Potion pot in potions)
+                        {
+                            _gameSession.currentPlayer.DrinkPotion(pot);
+                        }
+                        break;
                 }
             }
             StatusBar();
@@ -406,13 +415,13 @@ namespace oop_game
         }
         public static void DrawEnemy()
         {
-            foreach(Enemy enemy in _gameSession.enemies)
+            foreach (Enemy enemy in _gameSession.enemies)
             {
                 Console.ForegroundColor = enemy.Color;
                 Console.SetCursorPosition(enemy.X, enemy.Y);
                 Console.Write(enemy.Model);
                 Console.ResetColor();
-            }           
+            }
         }
         public static void DrawDrops()
         {
@@ -513,13 +522,13 @@ namespace oop_game
                 Console.CursorLeft = 50;
                 Console.WriteLine(lastFiveEntries[i]);
             }
-            
+
         }
 
         public static void PrintAnimation()
         {
             Image Picture = Image.FromFile("loading11.png");
-            
+
             //Console.WindowWidth = 180;
             //Console.WindowHeight = 61;
             //Console.WindowWidth = 180;
