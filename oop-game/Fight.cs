@@ -51,6 +51,7 @@ namespace oop_game
             }
         }
         
+
         protected virtual void OnTurnTaken(string fightdata)
         {
             EventHandler<string> handler = fightlog;
