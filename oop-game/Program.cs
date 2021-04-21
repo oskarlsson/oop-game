@@ -93,7 +93,7 @@ namespace oop_game
                 {
                     Console.ForegroundColor = ConsoleColor.Magenta;
                     Console.SetCursorPosition(x, y - 3);
-                    Console.WriteLine("Welcome {0} ", Environment.UserName);
+                    Console.WriteLine("Välkommen  {0} ", Environment.UserName);
                 }
                 else
                 if (menuType == "subMenu")
