@@ -28,10 +28,13 @@ namespace oop_game
 
         static readonly WaveOutEvent outputDevice = new WaveOutEvent();
         static AudioFileReader audioFile;
-        
-        
+
+        public static List<string> mainMenu = new List<string>() { "    Spela    ", "Instruktioner", "Inställningar", "   Avsluta   " };
+        public static List<string> Submenu = new List<string>() { "  Guld   ", "   Vit    ", "   Blå    ", "   Grå    ", "   Grön   ", "   Cyan   ", "Huvudmenyn" };
+        public static List<string> confirmExit = new List<string>() { "    Ja     ", "    Nej    " };
         static void Main(string[] args)
         {
+
             Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
             ShowWindow(ThisConsole, MAXIMIZE);
             _gameSession = new GameSession();
@@ -45,7 +48,7 @@ namespace oop_game
 
             PrintAnimation();
             PlaySound("Sound/Menu.mp3");
-            Menu("main");
+            menu("main", mainMenu);
 
         }
         public static void PlaySound(string filePath)
@@ -71,227 +74,182 @@ namespace oop_game
                 Console.Write(".");
             }
         }
-        public static void Menu(string menuStatus) // Menu has two states, main menu and a submenu to change player's color
+        // Menus of the game, menuType can be main for main menu, subMenu for sub menu and confirmExit for exit menu
+        public static void menu(string menuType, List<string> menuOptions)
         {
+            int y = Console.WindowHeight / 2; //Height positioning
+            int x = Console.WindowWidth / 2; // Width positioning
+            int pointer = 0;
             Console.Clear();
             Console.ResetColor();
             ASCIIModel title = new ASCIIModel("ASCII/Title.txt");
             FastDraw(title.Buffer);
             showStars();
-            
-            int x = (Console.WindowWidth / 2), y = 10; // Position of the menu on the screen
-
-            if (menuStatus == "main") // Main Menu 
+            Console.CursorVisible = false;
+            while (true)
             {
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.SetCursorPosition(x-10, 8);
-                Console.WriteLine("     Welcome {0} ", Environment.UserName);
-
-                Console.ForegroundColor = ConsoleColor.DarkYellow;
-                Console.SetCursorPosition(x, y);
-                Console.WriteLine("Spela ");
-                Console.SetCursorPosition(x, y + 1);
-                Console.WriteLine("Instruktioner");
-                Console.SetCursorPosition(x, y + 2);
-                Console.WriteLine("Inställningar");
-
-                Console.SetCursorPosition(x, y + 3);
-                Console.WriteLine("Avsluta");
-                Console.CursorVisible = false;
-            }
-            else
-            if (menuStatus == "subMenu_Settings") // Submenu
-            {
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.SetCursorPosition(x-25, 8);
-                ConsoleColor color = _gameSession.currentPlayer.PlayerColor; // The current color of the player
-                Console.WriteLine("Nuvarande färgen är             Välj en färg!       Esc = Huvudmenyn");
-                Console.SetCursorPosition(x-5, 8);
-                Console.ForegroundColor = color;
-                Console.Write(color);
-
-                // To create a menu using a better illustration for user
-                Console.SetCursorPosition(x, y);
-                Console.BackgroundColor = ConsoleColor.Green;
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("█████████");
-                Console.BackgroundColor = ConsoleColor.Magenta;
-                Console.ForegroundColor = ConsoleColor.Magenta;
-                Console.SetCursorPosition(x, y + 1);
-                Console.WriteLine("█████████");
-                Console.BackgroundColor = ConsoleColor.Blue;
-                Console.ForegroundColor = ConsoleColor.Blue;
-
-                Console.SetCursorPosition(x, y + 2);
-                Console.WriteLine("█████████");
-                Console.BackgroundColor = ConsoleColor.Yellow;
-                Console.ForegroundColor = ConsoleColor.Yellow;
-
-                Console.SetCursorPosition(x, y + 3);
-                Console.WriteLine("█████████");
                 Console.ResetColor();
-
-            }
-
-           
-
-
-
-            do // Main loop for the menu. It continues until the user select 'AVSLUTA'
-            {
-                Console.ForegroundColor = ConsoleColor.Blue;
-
-                Console.SetCursorPosition(x - 3, y);
-                Console.WriteLine("■■"); // Menu pointer
-
-
-
-
-
-                ConsoleKeyInfo keypress = Console.ReadKey(true);
-                ConsoleKey key = keypress.Key;
-                switch (key)
+                if (menuType == "main")
                 {
-                    case ConsoleKey.DownArrow:
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                    Console.SetCursorPosition(x, y - 3);
+                    Console.WriteLine("Welcome {0} ", Environment.UserName);
+                }
+                else
+                if (menuType == "subMenu")
+                {
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                    Console.SetCursorPosition(x - 25, y - 5);
+                    ConsoleColor color = _gameSession.currentPlayer.PlayerColor; // The current color of the player
+                    Console.WriteLine("Nuvarande färgen är             Välj en färg!       Esc = Huvudmenyn");
+                    Console.SetCursorPosition(x - 5, y - 5);
+                    Console.ForegroundColor = color;
+                    Console.Write(color);
+                }
+                else
+                if (menuType == "confirmExit")
+                {
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                    Console.SetCursorPosition(x - 5, y - 2);
+                    Console.WriteLine("Vill du sluta spelet?");
+                }
+                //Creating menu 
+                for (int i = 0; i < menuOptions.Count; i++)
+                {
+                    if (i == pointer)
+                    {
+                        Console.ResetColor();
+                        Console.SetCursorPosition(x, y + i);
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        Console.BackgroundColor = ConsoleColor.Blue;
+                        Console.WriteLine(menuOptions[i]);
+                    }
+                    else
+                    {
+                        Console.ResetColor();
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        Console.SetCursorPosition(x, y + i);
+                        Console.WriteLine(menuOptions[i]);
+                    }
+                    Console.BackgroundColor = ConsoleColor.Black;
+                }
+                ConsoleKeyInfo Selection = Console.ReadKey(true); // Reading arrow keys
+                ConsoleKey key = Selection.Key;
 
-                        if (y == 13) // Last option of the menu
+                switch (key)  // 
+                {
+                    case ConsoleKey.UpArrow: //Navigation
+                        if (pointer <= 0)
                         {
-                            Console.SetCursorPosition(x - 3, y);
-                            Console.WriteLine("  ");
-                            y = 10;
-                            Console.SetCursorPosition(x - 3, y);
-                            Console.ForegroundColor = ConsoleColor.Blue;
-                            Console.WriteLine("■■");
+                            pointer = menuOptions.Count - 1;
                         }
                         else
-                        {
-                            Console.SetCursorPosition(x - 3, y);
-                            Console.BackgroundColor = ConsoleColor.Black;
-                            Console.WriteLine("  ");
-
-                            y += 1;
-
-                            Console.SetCursorPosition(x - 3, y);
-                            Console.ForegroundColor = ConsoleColor.Blue;
-                            Console.WriteLine("■■");
-                        }
+                            pointer--;
                         break;
-                    case ConsoleKey.UpArrow:
-                        if (y == 10)  // First option of the menu
+                    case ConsoleKey.DownArrow:   //Navigation
+                        if (pointer == menuOptions.Count - 1)
                         {
-                            Console.SetCursorPosition(x - 3, y);
-                            Console.BackgroundColor = ConsoleColor.Black;
-                            Console.WriteLine("  ");
+                            pointer = 0;
 
-                            y = 13;
-                            Console.SetCursorPosition(x - 3, y);
-                            Console.ForegroundColor = ConsoleColor.Blue;
-                            Console.WriteLine("■■");
                         }
                         else
-                        {
-                            Console.SetCursorPosition(x - 3, y);
-                            Console.BackgroundColor = ConsoleColor.Black;
-                            Console.WriteLine("  ");
-                            y -= 1;
-                            Console.SetCursorPosition(x - 3, y);
-                            Console.ForegroundColor = ConsoleColor.Blue;
-                            Console.WriteLine("■■");
-                        }
+                            pointer++;
                         break;
-
-                    case ConsoleKey.Enter:
-                        if (y == 10)
-                        {
-                            if (menuStatus == "main")
-                            {
-                                Console.ResetColor();
-                                GameLoop();
-                            }
-                            else
-                            {
-                                _gameSession.currentPlayer.PlayerColor = ConsoleColor.Green;
-                                changeColor_message(ConsoleColor.Green);
-
-                            }
-                        }
-
-                        if (y == 11)
-                        {
-                            if (menuStatus == "main") // If 'Instruktioner' is selected
-                            {
-                                ViewInstructions(); // To do 
-                                Console.ReadKey();
-                                Menu("main");
-                            }
-                            else
-                            {
-                                _gameSession.currentPlayer.PlayerColor = ConsoleColor.Magenta;
-                                changeColor_message(ConsoleColor.Magenta);
-                            }
-
-
-                        }
-
-                        if (y == 12) // If 'Inställningar' is selected
-                        {
-                            if (menuStatus == "main")
-                            {
-                                Menu("subMenu_Settings");
-                            }
-                            else
-                            {
-                                _gameSession.currentPlayer.PlayerColor = ConsoleColor.Blue;
-                                changeColor_message(ConsoleColor.Blue);
-                            }
-                        }
-
-                        if (y == 13)
-                        {
-                            if (menuStatus == "main")
-                            {
-                                // The game is stopped and ended by user
-
-                                Exit();
-                            }
-                            else
-                            {
-
-                                _gameSession.currentPlayer.PlayerColor = ConsoleColor.Yellow;
-                                changeColor_message(ConsoleColor.Yellow);
-                            }
-                        }
-
-                        break;
-                    case ConsoleKey.Escape:    // Ability of ending the game using Esc key or jumping to the main menu from the submenu
-                        if (menuStatus == "subMenu_Settings")
-                            Menu("main");
+                    case ConsoleKey.Escape: // Exit, if the user use Esc key to exit
+                        if (menuType == "main")
+                            menu("confirmExit", confirmExit);
                         else
-                            if (menuStatus == "main")
-                            Exit();
+                            if (menuType == "subMenu")
+                            menu("main", mainMenu);
+                        else
+                            if (menuType == "confirmExit")
+                            menu("main", mainMenu);
                         break;
 
-                    default:
+                    case ConsoleKey.Enter: // Selection by pressing Enter 
+                        switch (menuType)
+                        {
+                            case "main": // Starting the game
+
+                                switch (pointer)
+                                {
+                                    case 0:
+                                        Console.ResetColor();
+                                        GameLoop();
+                                        break;
+
+                                    case 1:
+                                        Console.Clear();
+                                        Console.ResetColor();
+                                        ViewInstructions(); // Isstruktion of the game
+                                        break;
+                                    case 2:
+                                        menu("subMenu", Submenu); // Settings
+                                        break;
+
+                                    case 3:
+                                        menu("confirmExit", confirmExit);
+                                        break;
+                                }
+                                break;
+                            case "subMenu":  // Submenu for the settings (Selecting color of player)
+                                switch (pointer)
+                                {
+                                    case 0:
+                                        _gameSession.currentPlayer.PlayerColor = ConsoleColor.Yellow;
+                                        changeColor_message(ConsoleColor.Yellow);
+                                        break;
+                                    case 1:
+                                        _gameSession.currentPlayer.PlayerColor = ConsoleColor.White;
+                                        changeColor_message(ConsoleColor.White);
+                                        break;
+                                    case 2:
+                                        _gameSession.currentPlayer.PlayerColor = ConsoleColor.Blue;
+                                        changeColor_message(ConsoleColor.Blue);
+                                        break;
+                                    case 3:
+                                        _gameSession.currentPlayer.PlayerColor = ConsoleColor.Gray;
+                                        changeColor_message(ConsoleColor.Gray);
+                                        break;
+                                    case 4:
+                                        _gameSession.currentPlayer.PlayerColor = ConsoleColor.Green;
+                                        changeColor_message(ConsoleColor.Green);
+                                        break;
+                                    case 5:
+                                        _gameSession.currentPlayer.PlayerColor = ConsoleColor.Cyan;
+                                        changeColor_message(ConsoleColor.Cyan);
+                                        break;
+                                    case 6:
+                                        menu("main", mainMenu);
+                                        break;
+                                }
+                                break;
+                            case "confirmExit":
+                                if (pointer == 0)
+                                    Exit();
+                                else
+                                    if (pointer == 1)
+                                    menu("main", mainMenu);
+                                break;
+                        }
                         break;
                 }
-                Console.CursorVisible = false;
-            } while (true);
+            }
         }
-
-        public static void changeColor_message(ConsoleColor color)  // Color changing messge
+        public static void changeColor_message(ConsoleColor color)  // Color preview messge
         {
-            int winWidth = (Console.WindowWidth / 2);
-            Console.SetCursorPosition(winWidth-10, 15);
+            int x = (Console.WindowWidth / 2);
+            int y = (Console.WindowHeight / 2);
+            Console.SetCursorPosition(x - 10, y + 10);
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.Write("Spelarens färg ändrades till ");
-            Console.SetCursorPosition(winWidth+20, 15);
+            Console.SetCursorPosition(x + 20, y + 10);
             Console.ForegroundColor = color;
             Console.BackgroundColor = color;
             Console.Write("██");
             Thread.Sleep(800);
             Console.ResetColor();
-
-            Menu("subMenu_Settings");
+            menu("subMenu", Submenu);
         }
         public static void ViewInstructions() //TDO
         {
@@ -299,16 +257,21 @@ namespace oop_game
             Console.Clear();
             Console.WriteLine("Instruktioner...");
             Console.ReadKey();
-            Menu("main");
+            menu("main", mainMenu);
         }
 
         public static void Exit() // Exit the game
         {
             int x = (Console.WindowWidth / 2), y = 20;
+            Console.Clear();
             Console.ResetColor();
-            Console.SetCursorPosition(x-10, y);
-            Console.WriteLine("Spelet är slut...       Tryck på en knapp!");
-            Console.ReadKey();
+            ASCIIModel title = new ASCIIModel("ASCII/Title.txt");
+            FastDraw(title.Buffer);
+            showStars();
+            Console.SetCursorPosition(x - 10, y);
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine("Spelet är slut...       ");
+            Thread.Sleep(3000);
             Environment.Exit(0);
         }
 
@@ -335,8 +298,8 @@ namespace oop_game
                     _gameSession.Move(1, 0);
                     break;
                 case ConsoleKey.Escape:
-                    Console.Clear();
-                    Menu("main");
+                    menu("main", mainMenu);
+                    // Menu("main");
                     break;
                 default:
                     break;
@@ -362,7 +325,7 @@ namespace oop_game
                 if (_gameSession.currentPlayer.isAlive == false)
                 {
                     _gameSession = new GameSession();
-                    Menu("main");
+                    menu("main", mainMenu);
                 }
                 if (_gameSession.inFight)
                 {
